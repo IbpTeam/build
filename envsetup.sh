@@ -1,13 +1,10 @@
 function hh() {
 cat <<EOF
 Invoke ". build/envsetup.sh" from your shell to add the following functions to your environment:
-- croot:     Changes directory to the top of the tree.
 - cmaster:   repo forall -c git checkout -b master remotes/m/master
 - check:     Check the tools and dependencies to should be installed.
-- m:         Build.
-- cgrep:     Greps on all local C/C++ files.
-- psgrep:    Greps on all local py js files.
-- jgrep:     Greps on all local Java files.
+- m:         Build
+- r:         Run
 - godir:     Go to the directory containing a file.
 - h:       show more help.
 
@@ -31,8 +28,28 @@ function setenv()
     fi
 
     export OUT=$T/out
+	addpath "$T/build"
+	addpath "$T/prebuilt//node-webkit-v0.8.4"
 }
 
+function addpath()
+{
+	if [ $# == 1 ] ; then
+		exist="false"
+		pathadded=$(cd $1; pwd)
+		for THIS_PATH in `echo $PATH | sed 's/:/ /g'`
+		do
+			if [ "$THIS_PATH" == "$pathadded" ];then
+				exist="true"
+				break
+			fi
+		done
+
+		if [ "$exist" == "false" ];then
+			export PATH=$pathadded:$PATH
+		fi
+	fi
+}
 
 function h()
 {
@@ -63,7 +80,7 @@ function repo()
     fi
 }
 
-function refresh()
+function resource()
 {
     source $T/build/envsetup.sh
 }
@@ -169,15 +186,14 @@ function m()
     fi
 }
 
-function pid()
+function r()
 {
-   local EXE="$1"
-   if [ "$EXE" ] ; then
-       local PID=`adb shell ps | fgrep $1 | sed -e 's/[^ ]* *\([0-9]*\).*/\1/'`
-       echo "$PID"
-   else
-       echo "usage: pid name"
-   fi
+	echo Later for run.
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
 }
 
 case `uname -s` in
@@ -246,14 +262,17 @@ function godir () {
         return 1
     fi
     T=$(gettop)
-    if [[ ! -f $T/filelist ]]; then
+	if [ ! -d $OUT ] ; then
+        mkdir $OUT
+	fi
+    if [[ ! -f $OUT/filelist ]]; then
         echo -n "Creating index..."
-        (cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -type f > filelist)
+        (cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -type f > $OUT/filelist)
         echo " Done"
         echo ""
     fi
     local lines
-    lines=($(\grep "$1" $T/filelist | sed -e 's/\/[^/]*$//' | sort | uniq))
+    lines=($(\grep "$1" $OUT/filelist | sed -e 's/\/[^/]*$//' | sort | uniq))
     if [[ ${#lines[@]} = 0 ]]; then
         echo "Not found"
         return 1
@@ -295,3 +314,8 @@ if [ "x$SHELL" != "x/bin/bash" ]; then
 fi
 setenv
 addcompletions
+if [ $# == 0 ] ; then
+    echo
+	echo Finish setup enviroment. Enter hh to get more info.
+    echo
+fi
