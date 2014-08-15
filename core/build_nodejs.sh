@@ -14,6 +14,7 @@ make
 make install
 
 npm install nw-gyp -g
+npm install node-pre-gyp -g
 echo
 echo Successed building node.js.
 echo ===================================

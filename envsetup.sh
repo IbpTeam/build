@@ -38,7 +38,11 @@ function addpath()
 {
 	if [ $# == 1 ] ; then
 		exist="false"
-		pathadded=$(cd $1; pwd)
+        if [ -d $1 ] ; then
+		    pathadded=$(cd $1; pwd)
+        else
+            pathadded=$1
+        fi
 		for THIS_PATH in `echo $PATH | sed 's/:/ /g'`
 		do
 			if [ "$THIS_PATH" == "$pathadded" ];then
