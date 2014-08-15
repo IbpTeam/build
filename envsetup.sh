@@ -29,6 +29,7 @@ function setenv()
 
     export OUT=$T/out
 	addpath "$T/prebuilt//node-webkit-v0.8.4"
+    addpath "$OUT/nodejs/bin"
 
 	(cd $T/documents;git config core.quotepath false)
 }
@@ -179,22 +180,25 @@ function checkdep()
 
 function m()
 {
-	echo Later for build projects.
+    echo Building the whole projects.
     T=$(gettop)
     if [ ! "$T" ]; then
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
+    bash $T/build/core/build_nodejs.sh || return
+    bash $T/build/core/build_node_modules.sh || return
 }
 
 function r()
 {
-	echo Later for run.
+    echo Run app in app folder.
     T=$(gettop)
     if [ ! "$T" ]; then
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
+    bash $T/build/core/run_app.sh || return
 }
 
 case `uname -s` in
@@ -313,9 +317,9 @@ if [ "x$SHELL" != "x/bin/bash" ]; then
             ;;
     esac
 fi
-setenv
-addcompletions
 if [ $# == 0 ] ; then
+    setenv
+    addcompletions
     echo
 	echo Finish setup enviroment. Enter hh to get more info.
     echo
