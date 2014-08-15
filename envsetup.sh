@@ -28,7 +28,6 @@ function setenv()
     fi
 
     export OUT=$T/out
-	addpath "$T/build"
 	addpath "$T/prebuilt//node-webkit-v0.8.4"
 
 	(cd $T/documents;git config core.quotepath false)
