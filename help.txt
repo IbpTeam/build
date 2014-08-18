@@ -1,0 +1,52 @@
+代码管理帮助文件 20140817
+
+目录
+1. 下载代码
+2. 准备环境
+3. 编译
+4. 运行
+5. 其他
+6. 代码目录结构
+
+1. 下载代码 (如果已下载过代码，可跳至2.准备环境)
+    a) 下载repo
+        wget http://192.168.162.142/repo
+    b) 增加repo可执行权限，并添加到path路径中
+        chmod a+x repo
+        (将repo移至path路径或将repo所在目录加入path中)
+    c) 初始化repo库
+        mkdir WORK_DIRECOTRY
+        cd WORK_DIRECOTRY
+        repo init -u git@192.168.162.142:manifest.git -m webde.xml
+    d) 同步repo
+        repo sync
+    e) 建立master分支
+        cmaster
+             一个功能是创建master分支，并且关联至远程的cdosbuild分支上
+             另一个功能是设置默认的push分支，设定为向upstream分支push，即cdosbuild（其中例外是documents依然会自动是master, 不过没有问题）
+
+2. 准备环境
+        cd WORK_DIRECOTRY
+        source set_env 或者 . set_env
+
+3. 编译
+    a) 安装依赖环境、编译node.js，编译node模块
+        m
+         
+4. 运行
+        r
+
+5. 其他
+        帮助：hh
+
+6. 代码目录结构
+
+root_path
+├── app               用于存放app代码
+│   ├──demo-rio       用于存放数据管理器代码
+│   └──demo-webde     用于存放桌面管理器代码
+├── build             用于存放构建环境脚本文件
+├── documents         用于存放组内文档
+├── prebuilt          用于存放预编译文件，包括nw等
+├── src               用于存放源代码文件，包括node.js、node模块等
+└── out               生成目录，用于存放编译、运行期间中间生成的文件

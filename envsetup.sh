@@ -1,12 +1,11 @@
 function hh() {
 cat <<EOF
-Invoke ". build/envsetup.sh" from your shell to add the following functions to your environment:
-- cmaster:   repo forall -c git checkout -b master remotes/m/master
-- check:     Check the tools and dependencies to should be installed.
+Invoke ". set_env" from your shell to add the following functions to your environment:
+- cmaster:   Create master branch for commit code by git push.
 - m:         Build
 - r:         Run
 - godir:     Go to the directory containing a file.
-- h:       show more help.
+- h:         Show more help.
 
 Look at the source to view more functions. The complete list is:
 EOF
@@ -65,8 +64,8 @@ function h()
         return 1
     fi
 
-	echo Later for showing help.
-    #cat $T/docs/help.txt | more
+    echo Later for showing help.
+    cat $T/build/help.txt | more
 }
 
 function repo()
@@ -190,6 +189,7 @@ function m()
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
+    bash $T/build/core/install_deps.sh || return
     bash $T/build/core/build_nodejs.sh || return
     bash $T/build/core/build_node_modules.sh || return
     bash $T/build/core/link_modules_for_app.sh || return
@@ -203,7 +203,7 @@ function r()
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
-    bash $T/build/core/run_app.sh || return
+    bash $T/build/core/run_app.sh $* || return
 }
 
 case `uname -s` in

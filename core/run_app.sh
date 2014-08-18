@@ -22,7 +22,11 @@ if [[ ${#lines[@]} > 1 ]]; then
         echo
         echo -n "Select one: "
         unset choice
-        read choice
+        if [ $# == 1 ] ; then
+            choice=$1
+        else
+            read choice
+        fi
         if [[ $choice -gt ${#lines[@]} || $choice -lt 1 ]]; then
             echo "Invalid choice, exit!"
             exit 1
