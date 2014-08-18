@@ -46,6 +46,8 @@ function installDependenciesWithApt {
     # These are dependencies necessary for building node-module mdns.
     apt-get install libavahi-compat-libdnssd-dev
 
+    apt-get install g++
+
 }
 
 checkInstaller

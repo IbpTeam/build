@@ -1,18 +1,21 @@
 #!/bin/bash
-if [ $# == 1 ] ; then
-    cd $1
-else
-    #no param, we choose default app path to link modules
-    cd $(gettop)/app/demo-rio/nodewebkit
-fi
-echo
-echo -----------------------------------
-echo Link node modules for $1
-echo
 set -e
 CURRENTPATH=$(cd `dirname $0`; pwd)
 . $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
 setenv
+
+if [ $# == 1 ] ; then
+    apppath=$1
+else
+    #no param, we choose default app path to link modules
+    apppath=$(gettop)/app/demo-rio/nodewebkit
+fi
+cd $apppath
+
+echo
+echo -----------------------------------
+echo Link node modules for $apppath
+echo
 
 if [ ! -f package.json ] ; then
     echo Error: no package.json found!
