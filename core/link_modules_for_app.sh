@@ -15,7 +15,9 @@ fi
 
 for file in `npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | cut -d '@' -f 1`
 do
-    ln -s ../../../../out/nodejs/lib/node_modules/$file node_modules/$file
+    if [ ! -e node_modules/$file ] ; then
+        ln -s ../../../../out/nodejs/lib/node_modules/$file node_modules/$file
+    fi
 done
 echo
 echo Successed linking node modules for app.

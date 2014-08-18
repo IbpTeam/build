@@ -36,4 +36,5 @@ if [[ ${#lines[@]} > 1 ]]; then
 else
     pathname=${lines[0]}
 fi
+bash $(gettop)/build/core/link_modules_for_app.sh
 nw $pathname
