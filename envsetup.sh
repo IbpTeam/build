@@ -195,6 +195,11 @@ function m()
     bash $T/build/core/link_modules_for_app.sh || return
 }
 
+function mm()
+{
+    bash $T/build/core/build_single_module.sh || return
+}
+
 function r()
 {
     echo Run app in app folder.

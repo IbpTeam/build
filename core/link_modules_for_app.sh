@@ -28,6 +28,10 @@ do
         mkdir node_modules
     fi
     if [ ! -e node_modules/$file ] ; then
+        if [ ! -e ../../../../out/nodejs/lib/node_modules/$file ] ; then
+            echo Error: No node_modules/$file found! You should execute m successful!
+            exit 1
+        fi
         ln -s ../../../../out/nodejs/lib/node_modules/$file node_modules/$file
     fi
 done
