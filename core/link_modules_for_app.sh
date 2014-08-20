@@ -22,13 +22,13 @@ if [ ! -f package.json ] ; then
     exit 1
 fi
 
-for file in `OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | cut -d '@' -f 1`
+for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | cut -d '@' -f 1`
 do
     if [ ! -d node_modules ] ; then
         mkdir node_modules
     fi
     if [ ! -e node_modules/$file ] ; then
-        if [ ! -e ../../../../out/nodejs/lib/node_modules/$file ] ; then
+        if [ ! -e ../../../out/nodejs/lib/node_modules/$file ] ; then
             echo Error: No node_modules/$file found! You should execute m successful!
             exit 1
         fi
