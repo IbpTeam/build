@@ -26,6 +26,9 @@ function setenv()
         return 1
     fi
 
+    export npm_config_userconfig=$OUT/nodejs/.npmrc
+    export npm_config_cache=$OUT/nodejs/cache
+    export npm_config_init_module="$OUT/nodejs/.npm-init.js"
     export OUT=$T/out
 	addpath "$T/prebuilt//node-webkit-v0.8.4"
     addpath "$OUT/nodejs/bin"
