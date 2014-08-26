@@ -16,7 +16,7 @@ fi
 
 echo 
 echo ------------------
-echo Build single module : $file
+echo Build single module : $PWD
 echo 
 $OUT/nodejs/bin/npm link
 if [ -f binding.gyp ] ; then
@@ -26,6 +26,6 @@ if [ "$file" == "sqlite3" ] ; then
     $OUT/nodejs/bin/nw-gyp rebuild --target=0.8.4
 fi
 echo 
-echo Successed building $file.
+echo Successed building $PWD.
 echo ==================
 echo 
