@@ -38,4 +38,4 @@ else
 fi
 
 bash $(gettop)/build/core/link_modules_for_app.sh $pathname
-nw $pathname
+nw $pathname $*
