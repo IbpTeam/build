@@ -18,12 +18,14 @@ echo
 echo ------------------
 echo Build single module : $PWD
 echo 
-$OUT/nodejs/bin/npm link
-if [ -f binding.gyp ] ; then
-    $OUT/nodejs/bin/nw-gyp rebuild --target=0.8.4
-fi
-if [ "$file" == "sqlite3" ] ; then
-    $OUT/nodejs/bin/nw-gyp rebuild --target=0.8.4
+if [ -f package.json ] ; then
+  $OUT/nodejs/bin/npm link
+  if [ -f binding.gyp ] ; then
+      $OUT/nodejs/bin/nw-gyp rebuild --target=0.8.4
+  fi
+  if [ "$file" == "sqlite3" ] ; then
+      $OUT/nodejs/bin/nw-gyp rebuild --target=0.8.4
+  fi
 fi
 echo 
 echo Successed building $PWD.
