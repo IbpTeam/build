@@ -22,8 +22,9 @@ if [[ ${#lines[@]} > 1 ]]; then
         echo
         echo -n "Select one: "
         unset choice
-        if [ $# == 1 ] ; then
+        if [ $# -ge 1 ] ; then
             choice=$1
+            shift
         else
             read choice
         fi
