@@ -48,6 +48,8 @@ function installDependenciesWithApt {
 
     apt-get install g++
 
+    apt-get install libexpat1-dev
+
     # fix the lack of libudev.so.0.
 
     paths=(
