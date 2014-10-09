@@ -20,6 +20,8 @@ make install
 
 $OUT/nodejs/bin/npm install nw-gyp -g
 $OUT/nodejs/bin/npm install node-pre-gyp -g
+$OUT/nodejs/bin/npm install grunt-cli -g
+
 echo
 echo Successed building node.js.
 echo ===================================

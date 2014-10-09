@@ -28,12 +28,15 @@ function setenv()
 
     export OUT=$T/out
     export npm_config_userconfig=$OUT/nodejs/.npmrc
+    if [ ! -e $OUT/nodejs/.npmrc ] ; then
+        cat "registry = https://registry.npm.taobao.org" > $OUT/nodejs/.npmrc
+    fi
     export npm_config_cache=$OUT/nodejs/cache
     export npm_config_init_module="$OUT/nodejs/.npm-init.js"
     addpath "$T/prebuilt/node-webkit-v0.8.4"
     addpath "$OUT/nodejs/bin"
 
-	(cd $T/documents;git config core.quotepath false)
+    (cd $T/documents;git config core.quotepath false)
 }
 
 function addpath()
