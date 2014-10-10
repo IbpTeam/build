@@ -4,7 +4,7 @@ CURRENTPATH=$(cd `dirname $0`; pwd)
 . $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
 setenv
 
-lines=($(\find $(gettop)/app -maxdepth 3 -name package.json| sed -e 's/\/[^/]*$//' | sort | uniq))
+lines=($(\find $(gettop)/app -maxdepth 3 -name package.json| sed -e 's/\/[^/]*$//' | sort | uniq | sed -e '/demo-rio\/nodewebkit/d'))
 if [[ ${#lines[@]} = 0 ]]; then
     echo "Not found"
     exit 1
