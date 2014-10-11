@@ -29,7 +29,10 @@ function setenv()
     export OUT=$T/out
     export npm_config_userconfig=$OUT/nodejs/.npmrc
     if [ ! -e $OUT/nodejs/.npmrc ] ; then
-        cat "registry = https://registry.npm.taobao.org" > $OUT/nodejs/.npmrc
+        if [ ! -e $OUT/nodejs ] ; then
+            mkdir -p $OUT/nodejs
+        fi
+        echo "registry = https://registry.npm.taobao.org" > $OUT/nodejs/.npmrc
     fi
     export npm_config_cache=$OUT/nodejs/cache
     export npm_config_init_module="$OUT/nodejs/.npm-init.js"
