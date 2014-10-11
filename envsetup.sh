@@ -203,6 +203,9 @@ function m()
     bash $T/build/core/build_nodejs.sh || return
     bash $T/build/core/build_node_modules.sh || return
     bash $T/build/core/link_modules_for_app.sh || return
+
+    cd $(gettop)/app/demo-rio/nodewebkit
+    npm link
 }
 
 function mm()
