@@ -6,6 +6,8 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - r:         Run
 - godir:     Go to the directory containing a file.
 - h:         Show more help.
+- idb:       Initialize database.
+- cdb:       Clean database.
 
 Look at the source to view more functions. The complete list is:
 EOF
@@ -344,3 +346,25 @@ if [ $# == 0 ] ; then
 	echo Finish setup enviroment. Enter hh to get more info.
     echo
 fi
+
+#Initialize Database
+function idb () {
+    echo --------------------- Initialize Database ---------------------
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+    bash $T/build/core/init_database.sh init || return
+}
+
+#Clean Database
+function cdb () {
+    echo --------------------- Clean Database ---------------------
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+    bash $T/build/core/init_database.sh clean || return
+}
