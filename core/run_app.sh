@@ -38,9 +38,5 @@ else
     pathname=${lines[0]}
 fi
 
-pushd $PWD
-cd $(gettop)/app/demo-rio/nodewebkit
-npm link
-popd
 bash $(gettop)/build/core/link_modules_for_app.sh $pathname
 nw $pathname $*
