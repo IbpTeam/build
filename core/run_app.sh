@@ -40,4 +40,7 @@ fi
 
 bash $(gettop)/build/core/link_modules_for_app.sh $(gettop)/app/demo-rio/nodewebkit
 bash $(gettop)/build/core/link_modules_for_app.sh $pathname
+if [ -e $pathname/Gruntfile.js ] ; then
+    (cd $pathname && grunt)
+fi
 nw $pathname $*
