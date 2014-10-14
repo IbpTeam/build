@@ -38,5 +38,6 @@ else
     pathname=${lines[0]}
 fi
 
+bash $(gettop)/build/core/link_modules_for_app.sh $(gettop)/app/demo-rio/nodewebkit
 bash $(gettop)/build/core/link_modules_for_app.sh $pathname
 nw $pathname $*
