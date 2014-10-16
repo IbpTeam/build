@@ -3,6 +3,9 @@ cat <<EOF
 Invoke ". set_env" from your shell to add the following functions to your environment:
 - cmaster:   Create master branch for commit code by git push.
 - m:         Build
+- idep:      Install dependency lib.
+- mall:      Build all node modules. No param will build for nw, while with param --node will build for node.
+- lall:      Create link with node modules from global for demo-rio. The first param is the path of node app which need to create link. Default is the path of demo-rio
 - r:         Run
 - godir:     Go to the directory containing a file.
 - h:         Show more help.
