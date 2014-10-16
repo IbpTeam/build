@@ -192,6 +192,35 @@ function checkdep()
 	echo Later for checking dependency.
 }
 
+function idep()
+{
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+    bash $T/build/core/install_deps.sh || return
+}
+
+function mall()
+{
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+    bash $T/build/core/build_node_modules.sh $* || return
+}
+
+function lall(){
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+    bash $T/build/core/link_modules_for_app.sh $* || return
+}
+
 function m()
 {
     echo Building the whole projects.
