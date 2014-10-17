@@ -241,7 +241,7 @@ function m()
 
 function mm()
 {
-    bash $T/build/core/build_single_module.sh || return
+    bash $T/build/core/build_single_module.sh $* || return
 }
 
 function r()

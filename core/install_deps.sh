@@ -4,12 +4,6 @@ CURRENTPATH=$(cd `dirname $0`; pwd)
 . $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
 setenv
 
-# This script needs to be run with root rights.
-if [ $UID -ne 0 ]; then
-    sudo bash $0
-    exit 0
-fi
-
 echo
 echo -----------------------------------
 echo Install Deps
@@ -29,14 +23,14 @@ function checkInstaller {
     apt-get --version &> /dev/null
     if [ $? -eq 0 ]; then
         installDependenciesWithApt
-        exit 0
+        return 0
     fi
 
     # yum - Fedora
     #yum --version &> /dev/null
     #if [ $? -eq 0 ]; then
     #    installDependenciesWithYum
-    #    exit 0
+    #    return 0
     #fi
 
     printNotSupportedMessageAndExit
@@ -44,11 +38,11 @@ function checkInstaller {
 
 function installDependenciesWithApt {
     # These are dependencies necessary for building node-module mdns.
-    apt-get install libavahi-compat-libdnssd-dev
 
-    apt-get install g++
-
-    apt-get install libexpat1-dev
+    dpkg -l libavahi-compat-libdnssd-dev g++ libexpat1-dev >/dev/null
+    if [ $? -ne 0 ] ; then
+      sudo apt-get install libavahi-compat-libdnssd-dev g++ libexpat1-dev
+    fi
 
     # fix the lack of libudev.so.0.
 
@@ -65,12 +59,11 @@ function installDependenciesWithApt {
         fi
         if [ -f $i ]
         then
-            ln -sf "$i" $(dirname $i)/libudev.so.0
+            sudo ln -sf "$i" $(dirname $i)/libudev.so.0
             break
         fi
     done
 }
-
 checkInstaller
 
 

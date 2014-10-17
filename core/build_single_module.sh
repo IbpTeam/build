@@ -28,12 +28,11 @@ echo
 if [ -f package.json ] ; then
   $OUT/nodejs/bin/npm link
   if [ $isfornode -eq 0 ] ; then
+    echo ---Rebuilding for nw 0.8.4
     if [ -f binding.gyp ] ; then
         $OUT/nodejs/bin/nw-gyp rebuild --target=0.8.4
     fi
-    if [ "$file" == "sqlite3" ] ; then
-        $OUT/nodejs/bin/nw-gyp rebuild --target=0.8.4
-    fi
+    echo ---Finish rebuilding for nw 0.8.4
   fi
 fi
 echo 
