@@ -4,38 +4,69 @@ CURRENTPATH=$(cd `dirname $0`; pwd)
 . $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
 setenv
 
+function link_modules_for_one_app(){
+  cd $1
+  echo
+  echo -----------------------------------
+  echo Link node modules for $1
+  echo
+
+  if [ ! -f package.json ] ; then
+      echo Error: no package.json found!
+      return 1
+  fi
+
+  if [ "$PWD" == "$(gettop)/app/demo-webde/nw" ] ; then
+      echo For nw, we now use npm install to solve dependency.
+      npm install || return 1
+      if [ -e Gruntfile.js ] ; then
+          grunt || return 1
+      fi
+      return 0
+  fi
+
+
+  for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | cut -d '@' -f 1`
+  do
+      if [ ! -d node_modules ] ; then
+          mkdir node_modules
+      fi
+      if [ ! -e node_modules/$file ] ; then
+          if [ ! -e ../../../out/nodejs/lib/node_modules/$file ] ; then
+              echo Error: No node_modules/$file found! You should execute m successful!
+              return 1
+          fi
+          ln -s ../../../../out/nodejs/lib/node_modules/$file node_modules/$file
+      fi
+  done
+}
+
+function link_modules_for_all_app(){
+  link_modules_for_one_app $(gettop)/app/demo-rio/nodewebkit || return 1
+  link_modules_for_one_app $(gettop)/app/demo-rio/datamgr || return 1
+  link_modules_for_one_app $(gettop)/app/demo-rio/testAPI || return 1
+  link_modules_for_one_app $(gettop)/app/demo-webde/nw || return 1
+}
+
 if [ $# == 1 ] ; then
-    apppath=$1
-else
-    #no param, we choose default app path to link modules
-    apppath=$(gettop)/app/demo-rio/nodewebkit
-fi
-cd $apppath
-
-echo
-echo -----------------------------------
-echo Link node modules for $apppath
-echo
-
-if [ ! -f package.json ] ; then
-    echo Error: no package.json found!
+  if [ "$1" == "all" ] ; then
+    link_modules_for_all_app || exit 1
+  elif [ -d $1 ] ; then
+    link_modules_for_one_app $1 || exit 1
+  else
+    echo Error: can recognize $*
     exit 1
+  fi
+elif [ $# == 0 ] ; then
+  #no param, we choose default app path to link modules
+  link_modules_for_one_app $PWD || exit 1
+else
+  echo Error: can recognize $*
+  exit 1
 fi
 
-for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | cut -d '@' -f 1`
-do
-    if [ ! -d node_modules ] ; then
-        mkdir node_modules
-    fi
-    if [ ! -e node_modules/$file ] ; then
-        if [ ! -e ../../../out/nodejs/lib/node_modules/$file ] ; then
-            echo Error: No node_modules/$file found! You should execute m successful!
-            exit 1
-        fi
-        ln -s ../../../../out/nodejs/lib/node_modules/$file node_modules/$file
-    fi
-done
 echo
 echo Successed linking node modules for $1
 echo ===================================
 echo
+

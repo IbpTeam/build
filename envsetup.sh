@@ -5,7 +5,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - m:         Build
 - idep:      Install dependency lib.
 - mall:      Build all node modules. No param will build for nw, while with param --node will build for node.
-- lall:      Create link with node modules from global for demo-rio. The first param is the path of node app which need to create link. Default is the path of demo-rio
+- lall:      Create link with node modules from global for all app included demo-rio datamgr testAPI webde/nw
 - r:         Run
 - godir:     Go to the directory containing a file.
 - h:         Show more help.
@@ -215,13 +215,22 @@ function mall()
     bash $T/build/core/build_node_modules.sh $* || return
 }
 
-function lall(){
+function lapp(){
     T=$(gettop)
     if [ ! "$T" ]; then
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
     bash $T/build/core/link_modules_for_app.sh $* || return
+}
+
+function lall(){
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+    bash $T/build/core/link_modules_for_app.sh all || return
 }
 
 function m()
@@ -236,7 +245,7 @@ function m()
     bash $T/build/core/install_deps.sh || return
     bash $T/build/core/build_nodejs.sh || return
     bash $T/build/core/build_node_modules.sh || return
-    bash $T/build/core/link_modules_for_app.sh || return
+    bash $T/build/core/link_modules_for_app.sh all || return
 }
 
 function mm()

@@ -38,9 +38,10 @@ else
     pathname=${lines[0]}
 fi
 
-bash $(gettop)/build/core/link_modules_for_app.sh $(gettop)/app/demo-rio/nodewebkit
-bash $(gettop)/build/core/link_modules_for_app.sh $pathname
-if [ -e $pathname/Gruntfile.js ] ; then
-    (cd $pathname && grunt)
+if [ ! -e $pathname/node_modules ] ; then
+    bash $(gettop)/build/core/link_modules_for_app.sh $pathname
 fi
 nw $pathname $*
+if [ $? -ne 0 ] ; then
+    echo Note: if some error like UNMET DEPENDENCY or No Symbol happened, you maybe try execute lall or mall to solve problem.
+fi
