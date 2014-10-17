@@ -42,11 +42,23 @@
 6. 代码目录结构
 
 root_path
-├── app               用于存放app代码
-│   ├──demo-rio       用于存放数据管理器代码
-│   └──demo-webde     用于存放桌面管理器代码
-├── build             用于存放构建环境脚本文件
-├── documents         用于存放组内文档
-├── prebuilt          用于存放预编译文件，包括nw等
-├── src               用于存放源代码文件，包括node.js、node模块等
-└── out               生成目录，用于存放编译、运行期间中间生成的文件
+├── app                用于存放app代码
+│   ├── demo-rio       用于存放数据相关实现代码
+│   │   ├── datamgr    用于存放数据管理器代码
+│   │   ├── docs
+│   │   ├── nodewebkit 用于存放数据框架代码
+│   │   ├── sdk
+用于存放框架API代码,需要拷贝至每个应用开发环境中，并保持定期同步
+│   │   └── testAPI    用于存放测试代码
+│   ├── demo-webde     用于存放桌面管理器代码
+│   │   ├── gtkweb
+│   │   ├── nw         用于存放Node-webkit版桌面管理器代码
+│   │   └── ui-lib
+│   └── webde-android
+│       └── DevAndroid 用于存放Android版桌面代码
+├── build              用于存放构建环境脚本文件
+├── documents          用于存放组内文档
+├── prebuilt           用于存放预编译文件，包括nw等
+├── resources          用于存放示例数据文件
+├── src                用于存放源代码文件，包括node.js、node模块等
+└── out                生成目录，用于存放编译、运行期间中间生成的文件
