@@ -6,11 +6,12 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - idep:      Install dependency lib.
 - mall:      Build all node modules. No param will build for nw, while with param --node will build for node.
 - lall:      Create link with node modules from global for all app included demo-rio datamgr testAPI webde/nw
+- lapp:      Create link with node modules from global for one app in current path or param 1 path.
 - r:         Run
-- godir:     Go to the directory containing a file.
-- h:         Show more help.
 - idb:       Initialize database.
 - cdb:       Clean database.
+- godir:     Go to the directory containing a file.
+- h:         Show more help.
 
 Look at the source to view more functions. The complete list is:
 EOF
