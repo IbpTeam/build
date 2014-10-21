@@ -18,6 +18,7 @@ function link_modules_for_one_app(){
 
   if [ "$PWD" == "$(gettop)/app/demo-webde/nw" ] ; then
       echo For nw, we now use npm install to solve dependency.
+      npm link demo-rio || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
