@@ -27,6 +27,14 @@ function link_modules_for_one_app(){
       return 0
   fi
 
+  if [ "$PWD" == "$(gettop)/app/demo-webde/ui-lib" ] ; then
+      echo For nw, we now use npm install to solve dependency.
+      npm install || return 1
+      if [ -e Gruntfile.js ] ; then
+          grunt || return 1
+      fi
+      return 0
+  fi
 
   for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | cut -d '@' -f 1`
   do
