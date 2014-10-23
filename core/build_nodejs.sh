@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$CROOT" == "" ] ; then
+  echo ERROR: You should execute . set_env at project root path.
+  exit 1
+fi
 echo
 echo -----------------------------------
 echo Build node.js
@@ -9,11 +13,8 @@ if [ $UID -eq 0 ]; then
     echo Error! You should not run this shell with root rights.
     exit 1
 fi
-CURRENTPATH=$(cd `dirname $0`; pwd)
-. $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
-setenv
 
-cd $(gettop)/src/node
+cd $CROOT/src/node
 ./configure --prefix=$OUT/nodejs
 make
 make install

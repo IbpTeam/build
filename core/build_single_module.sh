@@ -1,15 +1,16 @@
 #!/bin/bash
+if [ "$CROOT" == "" ] ; then
+  echo ERROR: You should execute . set_env at project root path.
+  exit 1
+fi
 set -e
 # This script mustn't be run with root rights.
 if [ $UID -eq 0 ]; then
   echo Error! You should not run this shell with root rights.
   exit 1
 fi
-CURRENTPATH=$(cd `dirname $0`; pwd)
-. $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
-setenv
 
-if [ ! "$(dirname $(dirname $PWD))" == "$(gettop)/src" ] ; then
+if [ ! "$(dirname $(dirname $PWD))" == "$CROOT/src" ] ; then
   echo Error: this is not node module source path.
   exit 1
 fi
@@ -28,11 +29,15 @@ echo
 if [ -f package.json ] ; then
   $OUT/nodejs/bin/npm link
   if [ $isfornode -eq 0 ] ; then
-    echo ---Rebuilding for nw 0.8.4
-    if [ -f binding.gyp ] ; then
-        $OUT/nodejs/bin/nw-gyp rebuild --target=0.8.4
+    if [ "$WD_RT_VERSION" == "" ]; then
+      echo Error: No WD_RT_VERSION is set. You should execute source set_env at project root path.
+      exit 1
     fi
-    echo ---Finish rebuilding for nw 0.8.4
+    echo ---Rebuilding module for nw ${WD_RT_VERSION%%-*}
+    if [ -f binding.gyp ] ; then
+        $OUT/nodejs/bin/nw-gyp rebuild --target=${WD_RT_VERSION%%-*}
+    fi
+    echo ---Finish rebuilding module for nw ${WD_RT_VERSION%%-*}
   fi
 fi
 echo 

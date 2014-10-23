@@ -8,6 +8,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - lall:      Create link with node modules from global for all app included demo-rio datamgr testAPI webde/nw
 - lapp:      Create link with node modules from global for one app in current path or param 1 path.
 - r:         Run
+- cr:        Change Runtime
 - idb:       Initialize database.
 - cdb:       Clean database.
 - godir:     Go to the directory containing a file.
@@ -32,7 +33,11 @@ function setenv()
         return 1
     fi
 
+    export CROOT=$T
+    export TOP=$T
     export OUT=$T/out
+    export WD_RUNTIME=node-webkit
+    export WD_RT_VERSION=0.8.4
     export npm_config_userconfig=$OUT/nodejs/.npmrc
     if [ ! -e $OUT/nodejs/.npmrc ] ; then
         if [ ! -e $OUT/nodejs ] ; then
@@ -42,10 +47,36 @@ function setenv()
     fi
     export npm_config_cache=$OUT/nodejs/cache
     export npm_config_init_module="$OUT/nodejs/.npm-init.js"
-    addpath "$T/prebuilt/node-webkit-v0.8.4"
+    addpath "$T/prebuilt/$WD_RUNTIME-v${WD_RT_VERSION}"
     addpath "$OUT/nodejs/bin"
 
     (cd $T/documents;git config core.quotepath false)
+}
+
+function cr()
+{
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+
+    echo Current runtime is $WD_RUNTIME $WD_RT_VERSION
+    echo Choose the runtime you want to change:
+    echo 1. node-webkit 0.8.4
+    echo 2. node-webkit 0.8.6-linux-ia32
+    unset choice
+    read choice
+    if [[ $choice -gt 2 || $choice -lt 1 ]]; then
+        echo "Invalid choice, exit!"
+        return 1
+    elif [ $choice -eq 1 ] ; then
+        export WD_RUNTIME=node-webkit
+        export WD_RT_VERSION=0.8.4
+    elif [ $choice -eq 2 ] ; then
+        export WD_RUNTIME=node-webkit
+        export WD_RT_VERSION=0.8.6-linux-ia32
+    fi
 }
 
 function addpath()
@@ -175,8 +206,8 @@ function cmaster()
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
-    
-    repo forall -c git checkout -b master remotes/m/master
+
+    repo forall -c git checkout -B master remotes/m/master
     repo forall -c git config push.default upstream
 }
 
