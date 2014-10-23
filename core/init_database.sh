@@ -32,6 +32,18 @@ if [ -e $dbPath ] ; then
     fi
 fi
 
+if [ -e $OUT/resources/.git ] ; then
+    rm -rf $OUT/resources/.git
+fi
+
+if [ -e $OUT/resources/.desc ] ; then
+    rm -rf $OUT/resources/.desc
+fi
+
+if [ -e $OUT/resources/.desc ] ; then
+    rm -rf $OUT/resources/.desktop
+fi
+
 echo Start to create table...
 #SQL for init database
 initSQL="BEGIN TRANSACTION;\
