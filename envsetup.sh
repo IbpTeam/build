@@ -8,7 +8,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - lall:      Create link with node modules from global for all app included demo-rio datamgr testAPI webde/nw
 - lapp:      Create link with node modules from global for one app in current path or param 1 path.
 - r:         Run
-- rio:       Initialize Rio: 1.create directory for resources; 2.create and clean database.
+- irio:       Initialize Rio: 1.create directory for resources; 2.create and clean database.
 - cr:        Change Runtime
 - godir:     Go to the directory containing a file.
 - h:         Show more help.
@@ -420,7 +420,9 @@ if [ $# == 0 ] ; then
 fi
 
 #Initialize Rio
-function rio () {
+#1.create directory
+#2.create/clean db
+function irio () {
     echo --------------------- Initialize Rio ---------------------
     T=$(gettop)
     if [ ! "$T" ]; then
