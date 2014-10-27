@@ -1,4 +1,9 @@
 #!/bin/bash
+echo CROOT:$CROOT
+if [ "$CROOT" == "" ] ; then
+  echo ERROR: You should execute . set_env at project root path.
+  exit 1
+fi
 echo
 echo -----------------------------------
 echo Prepare out files from resources
@@ -9,9 +14,6 @@ if [ $UID -eq 0 ]; then
     echo Error! You should not run this shell with root rights.
     exit 1
 fi
-CURRENTPATH=$(cd `dirname $0`; pwd)
-. $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
-setenv
 
 if [ ! -e $OUT ] ; then
     mkdir $OUT

@@ -1,8 +1,9 @@
 #!/bin/bash
+if [ "$CROOT" == "" ] ; then
+  echo ERROR: You should execute . set_env at project root path.
+  exit 1
+fi
 set -e
-CURRENTPATH=$(cd `dirname $0`; pwd)
-. $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
-setenv
 
 echo
 echo -----------------------------------

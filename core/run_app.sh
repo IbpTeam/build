@@ -1,10 +1,11 @@
 #!/bin/bash
+if [ "$CROOT" == "" ] ; then
+  echo ERROR: You should execute . set_env at project root path.
+  exit 1
+fi
 set -e
-CURRENTPATH=$(cd `dirname $0`; pwd)
-. $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
-setenv
 
-lines=($(\find $(gettop)/app -maxdepth 3 -name package.json| sed -e 's/\/[^/]*$//' | sort | uniq | sed -e '/demo-rio\/nodewebkit/d'))
+lines=($(\find $CROOT/app -maxdepth 3 -name package.json| sed -e 's/\/[^/]*$//' | sort | uniq | sed -e '/demo-rio\/nodewebkit/d'))
 if [[ ${#lines[@]} = 0 ]]; then
     echo "Not found"
     exit 1
@@ -39,7 +40,7 @@ else
 fi
 
 if [ ! -e $pathname/node_modules ] ; then
-    bash $(gettop)/build/core/link_modules_for_app.sh $pathname
+    bash $CROOT/build/core/link_modules_for_app.sh $pathname
 fi
 nw $pathname $*
 if [ $? -ne 0 ] ; then
