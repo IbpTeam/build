@@ -3,7 +3,6 @@ if [ "$CROOT" == "" ] ; then
   echo ERROR: You should execute . set_env at project root path.
   exit 1
 fi
-set -e
 
 echo
 echo -----------------------------------
@@ -40,9 +39,25 @@ function checkInstaller {
 function installDependenciesWithApt {
     # These are dependencies necessary for building node-module mdns.
 
-    dpkg -l libavahi-compat-libdnssd-dev g++ libexpat1-dev >/dev/null
+    dpkg -l libavahi-compat-libdnssd-dev g++ libexpat1-dev | grep ii >/dev/null
     if [ $? -ne 0 ] ; then
       sudo apt-get install libavahi-compat-libdnssd-dev g++ libexpat1-dev
+    fi
+
+    echo install ruby
+    dpkg -l ruby | grep ii > /dev/null
+    if [ $? -ne 0 ] ; then
+      echo install ruby
+      sudo apt-get install ruby
+    fi
+    dpkg -l ruby1.9.1-dev| grep ii > /dev/null
+    if [ $? -ne 0 ] ; then
+      sudo apt-get install ruby1.9.1-dev
+    fi
+    echo install jekyll
+    gem list jekyll | grep 'jekyll ' > /dev/null
+    if [ $? -ne 0 ] ; then
+      sudo gem install jekyll
     fi
 
     # fix the lack of libudev.so.0.

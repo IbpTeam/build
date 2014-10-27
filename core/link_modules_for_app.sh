@@ -3,7 +3,6 @@ if [ "$CROOT" == "" ] ; then
   echo ERROR: You should execute . set_env at project root path.
   exit 1
 fi
-set -e
 
 function link_modules_for_one_app(){
   cd $1
@@ -17,8 +16,12 @@ function link_modules_for_one_app(){
       return 1
   fi
 
-  if [ "$PWD" == "$CROOT/app/demo-webde/nw" ] ; then
+ if [ "$PWD" == "$CROOT/app/demo-webde/nw" ] ; then
       echo For nw, we now use npm install to solve dependency.
+      if [ ! -d "$HOME/.local/share/webde"]; then
+        echo cp config file
+        cp -r "$PWD/config/" "$HOME/.local/webde" 
+      fi
       npm link demo-rio || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
@@ -27,8 +30,8 @@ function link_modules_for_one_app(){
       return 0
   fi
 
-  if [ "$PWD" == "$(gettop)/app/demo-webde/ui-lib" ] ; then
-      echo For nw, we now use npm install to solve dependency.
+  if [ "$PWD" == "$CROOT/app/demo-webde/ui-lib" ] ; then
+      echo For ui-lib, we now use npm install to solve dependency.
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
@@ -56,6 +59,7 @@ function link_modules_for_all_app(){
   link_modules_for_one_app $CROOT/app/demo-rio/datamgr || return 1
   link_modules_for_one_app $CROOT/app/demo-rio/testAPI || return 1
   link_modules_for_one_app $CROOT/app/demo-webde/nw || return 1
+  link_modules_for_one_app $CROOT/app/demo-webde/ui-lib || return 1
 }
 
 if [ $# == 1 ] ; then

@@ -24,7 +24,7 @@ if [ ! -d $OUT ] ; then
 fi
 
 if [ ! -e $OUT/resources ] ; then
-  cp -r $T/resources $OUT/resources
+  cp -r $CROOT/resources $OUT/resources
   rm -rf $OUT/resources/.git
 fi
 

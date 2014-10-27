@@ -42,6 +42,9 @@ fi
 if [ ! -e $pathname/node_modules ] ; then
     bash $CROOT/build/core/link_modules_for_app.sh $pathname
 fi
+if [ -e $pathname/Gruntfile.js ] ; then
+    bash $CROOT/build/core/link_modules_for_app.sh $pathname
+fi
 nw $pathname $*
 if [ $? -ne 0 ] ; then
     echo Note: if some error like UNMET DEPENDENCY or No Symbol happened, you maybe try execute lall or mall to solve problem.
