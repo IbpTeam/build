@@ -3,6 +3,7 @@ if [ "$CROOT" == "" ] ; then
   echo ERROR: You should execute . set_env at project root path.
   exit 1
 fi
+set -e
 
 function link_modules_for_one_app(){
   cd $1
