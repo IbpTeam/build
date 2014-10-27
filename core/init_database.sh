@@ -31,7 +31,7 @@ if [ -e $dbPath ] ; then
     fi
 fi
 
-echo Start to create table...
+echo create and clean database...
 #SQL for init database
 initSQL="BEGIN TRANSACTION;\
 CREATE TABLE category (logoPath TEXT, id INTEGER PRIMARY KEY, type TEXT, desc TEXT);\
