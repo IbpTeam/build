@@ -16,7 +16,7 @@ function link_modules_for_one_app(){
       return 1
   fi
 
- if [ "$PWD" == "$CROOT/app/demo-webde/nw" ] ; then
+  if [ "$PWD" == "$CROOT/app/demo-webde/nw" ] ; then
       echo For nw, we now use npm install to solve dependency.
       if [ ! -d "$HOME/.local/share/webde"]; then
         echo cp config file
