@@ -48,7 +48,7 @@ INSERT INTO category VALUES('./frontend-dev/images/pictures.png',102,'Picture','
 INSERT INTO category VALUES('./frontend-dev/images/videos.png',103,'Video','视频');\
 INSERT INTO category VALUES('./frontend-dev/images/documents.jpg',104,'Document','文档');\
 INSERT INTO category VALUES('./frontend-dev/images/music.png',105,'Music','音乐');\
-INSERT INTO category VALUES('./frontend-dev/images/devices.jpg',106,'Device','设备');\
+INSERT INTO category VALUES('./frontend-dev/images/devices.jpg',106,'Devices','设备');\
 COMMIT;"
 
 echo $initSQL | sqlite3 $dbPath
