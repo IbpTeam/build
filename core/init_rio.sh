@@ -10,7 +10,7 @@ if [ -e $resourcePath ]; then
   rm -rf $resourcePath
 fi
 cd ~&& mkdir $resourcePath&& cd $resourcePath
-cateArr=(music document video picture desktop contactsDes musicDes documentsDes videoDes picturesDes desktopDes)
+cateArr=(music document video picture desktop contactDes musicDes documentDes videoDes pictureDes desktopDes)
 for cateDir in ${cateArr[@]}
 do
    mkdir $cateDir&& cd $cateDir&& mkdir data&& git init&& cd ..
