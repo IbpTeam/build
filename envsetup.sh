@@ -8,9 +8,8 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - lall:      Create link with node modules from global for all app included demo-rio datamgr testAPI webde/nw
 - lapp:      Create link with node modules from global for one app in current path or param 1 path.
 - r:         Run
+- irio:       Initialize Rio: 1.create directory for resources; 2.create and clean database.
 - cr:        Change Runtime
-- idb:       Initialize database.
-- cdb:       Clean database.
 - godir:     Go to the directory containing a file.
 - h:         Show more help.
 
@@ -420,24 +419,17 @@ if [ $# == 0 ] ; then
     echo
 fi
 
-#Initialize Database
-function idb () {
-    echo --------------------- Initialize Database ---------------------
+#Initialize Rio
+#1.create directory
+#2.create/clean db
+function irio () {
+    echo --------------------- Initialize Rio ---------------------
     T=$(gettop)
     if [ ! "$T" ]; then
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
-    bash $T/build/core/init_database.sh init || return
-}
-
-#Clean Database
-function cdb () {
-    echo --------------------- Clean Database ---------------------
-    T=$(gettop)
-    if [ ! "$T" ]; then
-        echo "Couldn't locate the top of the tree.  Try setting TOP."
-        return 1
-    fi
+    bash $T/build/core/init_rio.sh || return
     bash $T/build/core/init_database.sh clean || return
+    echo --------------------- Initialize Rio Successfully---------------------
 }
