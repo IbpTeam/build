@@ -15,7 +15,7 @@ if [ -e $resourcePath ]; then
 fi
 cd ~&& mkdir $rioPath&& cd $rioPath&& touch uniqueID.js
 cd ~&& mkdir $resourcePath&& cd $resourcePath
-cateArr=(music document video picture desktop contactDes musicDes documentDes videoDes pictureDes desktopDes)
+cateArr=(music document video picture desktop other contactDes musicDes documentDes videoDes pictureDes desktopDes otherDes)
 for cateDir in ${cateArr[@]}
 do
    mkdir $cateDir&& cd $cateDir&& mkdir data&& git init&& cd ..
