@@ -43,12 +43,14 @@ CREATE TABLE music (is_delete INTEGER, URI TEXT, postfix TEXT, filename TEXT, id
 CREATE TABLE picture (is_delete INTEGER, URI TEXT, postfix TEXT, filename TEXT, id INTEGER PRIMARY KEY, size TEXT, path TEXT, location TEXT, createTime TEXT,createDev TEXT, lastAccessTime TEXT,lastAccessDev TEXT,lastModifyTime TEXT,lastModifyDev TEXT,others TEXT);\
 CREATE TABLE tags (id INTEGER PRIMARY KEY, file_URI TEXT, tag TEXT);\
 CREATE TABLE video (is_delete INTEGER, URI TEXT, postfix TEXT, filename TEXT, path TEXT, id INTEGER PRIMARY KEY, size TEXT, type TEXT, createTime TEXT,createDev TEXT, lastAccessTime TEXT,lastAccessDev TEXT,lastModifyTime TEXT,lastModifyDev TEXT,others TEXT);\
+CREATE TABLE other (filename TEXT, postfix TEXT, path TEXT, URI TEXT, createTime TEXT, id INTEGER PRIMARY KEY,others TEXT, size TEXT,createDev TEXT, lastAccessTime TEXT,lastAccessDev TEXT,lastModifyTime TEXT,lastModifyDev TEXT);\
 INSERT INTO category VALUES('./frontend-dev/images/contacts.jpg',101,'Contact','联系人');\
 INSERT INTO category VALUES('./frontend-dev/images/pictures.png',102,'Picture','图片');\
 INSERT INTO category VALUES('./frontend-dev/images/videos.png',103,'Video','视频');\
 INSERT INTO category VALUES('./frontend-dev/images/documents.jpg',104,'Document','文档');\
 INSERT INTO category VALUES('./frontend-dev/images/music.png',105,'Music','音乐');\
-INSERT INTO category VALUES('./frontend-dev/images/devices.jpg',106,'Devices','设备');\
+INSERT INTO category VALUES('./frontend-dev/images/other.jpg',106,'Other','其他');\
+INSERT INTO category VALUES('./frontend-dev/images/devices.jpg',107,'Devices','设备');\
 COMMIT;"
 
 echo $initSQL | sqlite3 $dbPath
