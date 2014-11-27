@@ -7,7 +7,7 @@ echo create resources directory...
 rioPath=~/.demo-rio
 resourcePath=~/.resources
 name=`whoami`
-userConifg="var uniqueID=\""$RANDOM"\";\nexports.uniqueID=uniqueID;\nvar Account=\""$name"\";\nexports.Account=Account;"
+userConifg="var uniqueID=\"rio"$RANDOM"rio\";\nexports.uniqueID=uniqueID;\nvar Account=\""$name"\";\nexports.Account=Account;"
 #If directory exists, remove it.
 if [ -e $rioPath ]; then
   rm -rf $rioPath
