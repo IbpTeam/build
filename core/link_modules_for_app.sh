@@ -40,6 +40,15 @@ function link_modules_for_one_app(){
       return 0
   fi
 
+    if [ "$PWD" == "$CROOT/app/demo-rio/newdatamgr" ] ; then
+      echo For ui-lib, we now use npm install to solve dependency.
+      npm install || return 1
+      if [ -e Gruntfile.js ] ; then
+          grunt || return 1
+      fi
+      return 0
+  fi
+
   for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | cut -d '@' -f 1`
   do
       if [ ! -d node_modules ] ; then
@@ -61,6 +70,7 @@ function link_modules_for_all_app(){
   link_modules_for_one_app $CROOT/app/demo-rio/testAPI || return 1
   link_modules_for_one_app $CROOT/app/demo-webde/nw || return 1
   link_modules_for_one_app $CROOT/app/demo-webde/ui-lib || return 1
+  link_modules_for_one_app $CROOT/app/demo-rio/newdatamgr || return 1
 }
 
 if [ $# == 1 ] ; then
