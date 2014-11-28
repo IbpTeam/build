@@ -24,4 +24,14 @@ do
    mkdir $cateDir&& cd $cateDir&& mkdir data&& git init&& cd ..
 done
 
+#Check and install mutagen 
+TOOLBUILDESSENTIAL=`dpkg -l |grep python-mutagen`
+if [ -z "$TOOLBUILDESSENTIAL" ];
+then
+    echo "installing python-mutagen"
+    sudo apt-get install -y python-mutagen
+else
+    echo "python-mutagen ready"
+fi
+
 exit 0
