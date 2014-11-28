@@ -41,7 +41,7 @@ function link_modules_for_one_app(){
   fi
 
     if [ "$PWD" == "$CROOT/app/demo-rio/newdatamgr" ] ; then
-      echo For ui-lib, we now use npm install to solve dependency.
+      echo For demo-rio/newdatamgr, we now use npm install to solve dependency.
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
