@@ -1,0 +1,11 @@
+Source: cdos-dde
+Section: admin
+Priority: optional
+Maintainer: CDOS Team <cdos_support@iscas.ac.cn>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 0.5.0
+
+Package: cdos-dde
+Architecture: any
+Depends: git, ssh, sqlite3 
+Description: Test.

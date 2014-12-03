@@ -64,9 +64,9 @@ function installDependenciesWithApt {
       sudo apt-get install ruby1.9.1-dev
     fi
   set +e 
-    echo install jekyll
-    gem list jekyll | grep 'jekyll ' > /dev/null
-    res_no=$?
+    #echo install jekyll
+    #gem list jekyll | grep 'jekyll ' > /dev/null
+    #res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
       sudo gem install jekyll
