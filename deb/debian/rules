@@ -47,7 +47,8 @@ install: build
 	
 	mkdir -p $(CURDIR)/debian/webde
 	cp -r $(CURDIR)/usr $(CURDIR)/debian/webde/
-	cp -r $(CURDIR)/$(DEB_HOST_ARCH)/node-webkit $(CURDIR)/debian/webde/usr/share/webde/
+	cp -r $(CURDIR)/webde $(CURDIR)/debian/webde/
+	cp -r $(CURDIR)/$(DEB_HOST_ARCH)/node-webkit* $(CURDIR)/debian/webde/usr/share/webde/node-webkit
 
 # Build architecture-independent files here.
 binary-indep: build install

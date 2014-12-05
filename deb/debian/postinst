@@ -16,9 +16,19 @@ set -e
 # the debian-policy package
 #
 
-echo ============================================
-echo Post init
-echo ============================================
+echo Create soft link...
+webdePath=/usr/share/webde
+appPath=$webdePath/app
+
+for appName in `ls $appPath`
+do
+  cd $appPath/$appName
+  ln -s ../../sdk/lib lib
+done
+
+#echo Initialize webde...
+#bash $webdePath/init/init_rio.sh 
+#bash $webdePath/init/init_database.sh clean 
 
 exit 0
 

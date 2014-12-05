@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo post remove start...
+webdePath=/usr/share/webde
+appPath=$webdePath/app
+
+echo Remove soft link...
+for appName in `ls $appPath`
+do
+  if [-e $appPath/$appName/lib ] ; then
+    rm -rf $appPath/$appName/lib
+  fi
+done
+
+#echo Remove webde config...
+#for usrName in `ls /home`
+#do
+#  if [ -e /home/$usrName/.demo-rio ] ; then
+#  	rm -rf /home/$usrName/.demo-rio
+#  fi
+#  if [ -e /home/$usrName/.resources ] ; then
+#  	rm -rf /home/$usrName/.resources
+#  fi
+#done
+
+echo post remove finished...
