@@ -1,8 +1,5 @@
 #!/bin/bash
-#set -e
-#CURRENTPATH=$(cd `dirname $0`; pwd)
-#. $(cd `dirname $CURRENTPATH`; pwd)/envsetup.sh nosetenv
-#setenv
+
 echo create resources directory...
 rioPath=~/.demo-rio
 resourcePath=~/.resources
