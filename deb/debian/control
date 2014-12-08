@@ -1,11 +1,11 @@
 Source: webde
 Section: admin
 Priority: optional
-Maintainer: CDOS Team <cdos_support@iscas.ac.cn>
+Maintainer: IBP Team <ibp@iscas.ac.cn>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 0.5.0
 
 Package: webde
 Architecture: any
-Depends: git, ssh, sqlite3 
-Description: Test.
+Depends: git, ssh, sqlite3, libavahi-compat-libdnssd-dev, g++, libexpat1-dev, python-mutagen 
+Description: 基于HTML5跨设备新型桌面.
