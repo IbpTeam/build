@@ -1,9 +1,4 @@
 #!/bin/bash
-#set -e
-if [ "$CROOT" == "" ] ; then
-  echo ERROR: You should execute . set_env at project root path.
-  exit 1
-fi
 
 #Base on param, "clean" for clean db;init for initialize db.
 #Default is init.

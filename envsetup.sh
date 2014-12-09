@@ -11,6 +11,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - irio:       Initialize Rio: 1.create directory for resources; 2.create and clean database.
 - cr:        Change Runtime
 - godir:     Go to the directory containing a file.
+- bp       Build package.
 - h:         Show more help.
 
 Look at the source to view more functions. The complete list is:
@@ -432,4 +433,15 @@ function irio () {
     bash $T/build/core/init_rio.sh || return
     bash $T/build/core/init_database.sh clean || return
     echo --------------------- Initialize Rio Successfully---------------------
+}
+
+function bp () {
+    echo --------------------- Build Package ---------------------
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+    bash $T/build/deb/build_package.sh || return
+    echo --------------------- Build Package Finished---------------------
 }
