@@ -40,11 +40,11 @@ function checkInstaller {
 function installDependenciesWithApt {
     # These are dependencies necessary for building node-module mdns.
   set +e 
-    dpkg -l libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen >/dev/null
+    dpkg -l libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg >/dev/null
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
-      sudo apt-get install libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen
+      sudo apt-get install libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg
     fi
   
     echo install ruby
