@@ -273,7 +273,6 @@ function m()
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
-    bash $T/build/core/prepare_out_files.sh || return
     bash $T/build/core/install_deps.sh || return
     bash $T/build/core/build_nodejs.sh || return
     bash $T/build/core/build_node_modules.sh || return
