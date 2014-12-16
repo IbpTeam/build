@@ -40,7 +40,7 @@ function checkInstaller {
 function installDependenciesWithApt {
     # These are dependencies necessary for building node-module mdns.
   set +e 
-    dpkg -l libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg >/dev/null
+    dpkg -L libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg >/dev/null
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
