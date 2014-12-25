@@ -40,16 +40,22 @@ function checkInstaller {
 function installDependenciesWithApt {
     # These are dependencies necessary for building node-module mdns.
   set +e 
-    dpkg -L libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg >/dev/null
+    dpkg -L libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg xdotool sqlite3 sqlitebrowser>/dev/null
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
-      sudo apt-get install libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg
+      if [ `command -v lsb_release` ] ; then
+        if [ "`lsb_release -cs`" == "qiana"  ] ; then
+          sudo add-apt-repository -y ppa:jon-severinsson/ffmpeg
+          sudo apt-get update
+        fi
+      fi
+      sudo apt-get install libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg xdotool sqlite3 sqlitebrowser
     fi
   
     echo install ruby
   set +e 
-    dpkg -l ruby | grep ii > /dev/null
+    dpkg -L ruby > /dev/null
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
@@ -57,7 +63,7 @@ function installDependenciesWithApt {
       sudo apt-get install ruby
     fi
   set +e 
-    dpkg -l ruby1.9.1-dev| grep ii > /dev/null
+    dpkg -L ruby1.9.1-dev > /dev/null
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
