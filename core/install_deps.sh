@@ -48,6 +48,9 @@ function installDependenciesWithApt {
         if [ "`lsb_release -cs`" == "qiana"  ] ; then
           sudo add-apt-repository -y ppa:jon-severinsson/ffmpeg
           sudo apt-get update
+        elif [ "`lsb_release -cs`" == "rebecca"  ] ; then
+          sudo add-apt-repository -y ppa:jon-severinsson/ffmpeg
+          sudo apt-get update
         fi
       fi
       sudo apt-get install libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg xdotool sqlite3 sqlitebrowser
