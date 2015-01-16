@@ -65,17 +65,33 @@ function cr()
     echo Choose the runtime you want to change:
     echo 1. node-webkit 0.8.4
     echo 2. node-webkit 0.8.6-linux-ia32
+    echo 3. node-webkit 0.8.4-linux-x64
+    echo 4. node-webkit 0.8.6-linux-x64
     unset choice
     read choice
-    if [[ $choice -gt 2 || $choice -lt 1 ]]; then
+    if [[ $choice -gt 4 || $choice -lt 1 ]]; then
         echo "Invalid choice, exit!"
         return 1
     elif [ $choice -eq 1 ] ; then
         export WD_RUNTIME=node-webkit
         export WD_RT_VERSION=0.8.4
+        echo Current runtime is $WD_RUNTIME $WD_RT_VERSION
+        addpath "$T/prebuilt/$WD_RUNTIME-v${WD_RT_VERSION}"
     elif [ $choice -eq 2 ] ; then
         export WD_RUNTIME=node-webkit
         export WD_RT_VERSION=0.8.6-linux-ia32
+        echo Current runtime is $WD_RUNTIME $WD_RT_VERSION
+        addpath "$T/prebuilt/$WD_RUNTIME-v${WD_RT_VERSION}"
+    elif [ $choice -eq 3 ] ; then
+        export WD_RUNTIME=node-webkit
+        export WD_RT_VERSION=0.8.4-linux-x64
+        echo Current runtime is $WD_RUNTIME $WD_RT_VERSION
+        addpath "$T/prebuilt/$WD_RUNTIME-v${WD_RT_VERSION}"
+    elif [ $choice -eq 4 ] ; then
+        export WD_RUNTIME=node-webkit
+        export WD_RT_VERSION=0.8.6-linux-x64
+        echo Current runtime is $WD_RUNTIME $WD_RT_VERSION
+        addpath "$T/prebuilt/$WD_RUNTIME-v${WD_RT_VERSION}"
     fi
 }
 
