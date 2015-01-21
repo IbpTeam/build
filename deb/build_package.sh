@@ -12,7 +12,7 @@ appPath=$debDir/$debName/usr/share/$debName/app
 initPath=$debDir/$debName/usr/share/$debName/init
 i386Path=$debDir/$debName/i386
 amd64Path=$debDir/$debName/amd64
-applist=(appExample datamgr newdatamgr viewerPDF)
+applist=(newdatamgr viewerPDF)
 
 echo Clean last build package...
 if [ -e $debDir ] ; then
@@ -20,7 +20,7 @@ if [ -e $debDir ] ; then
 fi
 
 echo Create directory...
-mkdir -p $resourcePath
+mkdir -p $resourcePath/demo-webde
 mkdir -p $appPath
 mkdir -p $initPath
 mkdir -p $i386Path
@@ -32,10 +32,12 @@ echo Copy node-webkit...
 cp -r $CROOT/prebuilt/node-webkit-v0.8.4 $i386Path/node-webkit-v0.8.4
 cp -r $CROOT/prebuilt/node-webkit-v0.8.4-linux-x64 $amd64Path/node-webkit-v0.8.4-linux-x64
 echo Copy demo-webde...
-cp -r $CROOT/app/demo-webde $resourcePath
+cp -r $CROOT/app/demo-webde/nw/* $resourcePath/demo-webde
+rm -rf $resourcePath/demo-webde/old*
 echo Copy demo-rio...
-rm -rf $resourcePath/demo-webde/nw/node_modules/demo-rio
-cp -r $CROOT/app/demo-rio/nodewebkit $resourcePath/demo-webde/nw/node_modules/demo-rio
+rm -rf $resourcePath/demo-webde/node_modules/demo-rio
+mkdir $resourcePath/demo-webde/node_modules/demo-rio
+cp -r $CROOT/app/demo-rio/nodewebkit/* $resourcePath/demo-webde/node_modules/demo-rio
 echo Copy sdk...
 cp -r $CROOT/app/demo-rio/sdk $resourcePath
 
@@ -47,35 +49,46 @@ echo Copy default app...
 for appName in ${applist[@]}
 do	
   cp -r $CROOT/app/demo-rio/$appName $appPath
-  rm -rf $appPath/$appName/lib
+  cd $appPath/$appName
+  rm lib
+  ln -s ../../sdk/lib
 done
+
+echo Create datamgr link...
+cd $debDir/$debName/usr/share/$debName/app/newdatamgr/node_modules
+rm demo-rio
+ln -s ../../../demo-webde/node_modules/demo-rio demo-rio 
 
 echo Copy init shell...
 cp -r $CROOT/build/core/init_rio.sh $initPath
 cp -r $CROOT/build/core/init_database.sh $initPath
 
 echo create node modules...
-rm -rf $resourcePath/demo-webde/nw/node_modules/demo-rio/node_modules
-cp -r $CROOT/src/node_modules $resourcePath/demo-webde/nw/node_modules/demo-rio/
+rm -rf $resourcePath/demo-webde/node_modules/demo-rio/node_modules
+#for moduleName in `ls $CROOT/src/node_modules`
+#do
+#  zip -r $resourcePath/demo-webde/nw/node_modules/demo-rio/node_modules/$moduleName.nw $CROOT/src/node_modules/$moduleName/*
+#done
+cp -r $CROOT/src/node_modules $resourcePath/demo-webde/node_modules/demo-rio/
 
 echo Create global config...
-if [ -e $resourcePath/demo-webde/nw/config/webde/webde ] ; then 
-  mv $resourcePath/demo-webde/nw/config/webde/webde $debDir/$debName
+if [ -e $resourcePath/demo-webde/config/webde/webde ] ; then 
+  mv $resourcePath/demo-webde/config/webde/webde $debDir/$debName
 fi
 
 echo Remove git related in demo-webde...
 rm -rf $resourcePath/demo-webde/.git*
 echo Remove git related in demo-rio...
-rm -rf $resourcePath/demo-webde/nw/node_modules/demo-rio/.git*
+rm -rf $resourcePath/demo-webde/node_modules/demo-rio/.git*
 
 echo Remove git related in each node module...
-for moduleName in `ls $resourcePath/demo-webde/nw/node_modules/demo-rio/node_modules`
+for moduleName in `ls $resourcePath/demo-webde/node_modules/demo-rio/node_modules`
 do
-  rm -rf $resourcePath/demo-webde/nw/node_modules/demo-rio/node_modules/$moduleName/.git*
+  rm -rf $resourcePath/demo-webde/node_modules/demo-rio/node_modules/$moduleName/.git*
 done
 
 echo start to build package...
 cd $debDir/$debName
-dpkg-buildpackage -tc
+#dpkg-buildpackage -tc
 
 exit 0
