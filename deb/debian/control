@@ -7,5 +7,5 @@ Standards-Version: 0.5.0
 
 Package: webde
 Architecture: any
-Depends: git, ssh, sqlite3, libavahi-compat-libdnssd-dev, g++, libexpat1-dev, python-mutagen , ffmpeg
+Depends: git, ssh, sqlite3, libavahi-compat-libdnssd-dev, g++, libexpat1-dev, python-mutagen , libav-tools
 Description: 基于HTML5跨设备新型桌面.
