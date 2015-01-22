@@ -90,6 +90,6 @@ done
 
 echo start to build package...
 cd $debDir/$debName
-#dpkg-buildpackage -tc
+dpkg-buildpackage -tc
 
 exit 0
