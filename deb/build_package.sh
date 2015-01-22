@@ -13,6 +13,7 @@ initPath=$debDir/$debName/usr/share/$debName/init
 i386Path=$debDir/$debName/i386
 amd64Path=$debDir/$debName/amd64
 applist=(newdatamgr viewerPDF)
+nodeModules=(chokidar csvtojson dbus file-stream fs-extra getmac hashtable id3v2-parser node-rsa request socket.io socket.io-client sqlite3 tape ws)
 
 echo Clean last build package...
 if [ -e $debDir ] ; then
@@ -35,7 +36,7 @@ echo Copy demo-webde...
 cp -r $CROOT/app/demo-webde/nw/* $resourcePath/demo-webde
 rm -rf $resourcePath/demo-webde/old*
 echo Copy demo-rio...
-rm -rf $resourcePath/demo-webde/node_modules/demo-rio
+rm -rf $resourcePath/demo-webde/node_modules/*
 mkdir $resourcePath/demo-webde/node_modules/demo-rio
 cp -r $CROOT/app/demo-rio/nodewebkit/* $resourcePath/demo-webde/node_modules/demo-rio
 echo Copy sdk...
@@ -56,7 +57,7 @@ done
 
 echo Create datamgr link...
 cd $debDir/$debName/usr/share/$debName/app/newdatamgr/node_modules
-rm demo-rio
+rm -rf ./*
 ln -s ../../../demo-webde/node_modules/demo-rio demo-rio 
 
 echo Copy init shell...
@@ -64,12 +65,12 @@ cp -r $CROOT/build/core/init_rio.sh $initPath
 cp -r $CROOT/build/core/init_database.sh $initPath
 
 echo create node modules...
-rm -rf $resourcePath/demo-webde/node_modules/demo-rio/node_modules
-#for moduleName in `ls $CROOT/src/node_modules`
-#do
-#  zip -r $resourcePath/demo-webde/nw/node_modules/demo-rio/node_modules/$moduleName.nw $CROOT/src/node_modules/$moduleName/*
-#done
-cp -r $CROOT/src/node_modules $resourcePath/demo-webde/node_modules/demo-rio/
+rm -rf $resourcePath/demo-webde/node_modules/demo-rio/node_modules/*
+for moduleName in ${nodeModules[@]}
+do
+  cp -r $CROOT/src/node_modules/$moduleName $resourcePath/demo-webde/node_modules/demo-rio/node_modules/
+done
+#cp -r $CROOT/src/node_modules $resourcePath/demo-webde/node_modules/demo-rio/
 
 echo Create global config...
 if [ -e $resourcePath/demo-webde/config/webde/webde ] ; then 
