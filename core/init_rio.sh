@@ -1,20 +1,21 @@
 #!/bin/bash
 
 echo create resources directory...
-rioPath=~/.demo-rio
-resourcePath=~/.resources
+basePath=~/.custard
+#rioPath=~/.demo-rio
+configPath=$basePath/config
+#resourcePath=~/.resources
+resourcePath=$basePath/resource
 name=`whoami`
 userConifg="var uniqueID=\"rio"$RANDOM"rio\";\nexports.uniqueID=uniqueID;\nvar Account=\""$name"\";\nexports.Account=Account;"
 #If directory exists, remove it.
-if [ -e $rioPath ]; then
-  rm -rf $rioPath
+if [ -e $basePath ]; then
+  rm -rf $basePath
 fi
-if [ -e $resourcePath ]; then
-  rm -rf $resourcePath
-fi
-cd ~&& mkdir $rioPath&& cd $rioPath
+mkdir -p $basePath
+cd $basePath&& mkdir $configPath&& cd $configPath
 echo -e $userConifg > uniqueID.js
-cd ~&& mkdir $resourcePath&& cd $resourcePath
+cd $basePath&& mkdir $resourcePath&& cd $resourcePath
 cateArr=(music document video picture desktop other contactDes musicDes documentDes videoDes pictureDes desktopDes otherDes)
 for cateDir in ${cateArr[@]}
 do

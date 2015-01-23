@@ -17,7 +17,7 @@ if [ ! $isInstallSqlite3 ] ; then
 fi
 
 #Is db file exists
-dbPath=~/.demo-rio/rio.sqlite3
+dbPath=~/.custard/config/rio.sqlite3
 if [ -e $dbPath ] ; then
     if [ $isInit == "init" ] ; then
         echo Database is already exists.
