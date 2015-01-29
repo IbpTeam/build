@@ -30,8 +30,8 @@ mkdir -p $amd64Path
 echo Create debian environment...
 cp -r $CROOT/build/deb/debian $debDir/$debName
 echo Copy node-webkit...
-cp -r $CROOT/prebuilt/node-webkit-v0.8.4 $i386Path/node-webkit-v0.8.4
-cp -r $CROOT/prebuilt/node-webkit-v0.8.4-linux-x64 $amd64Path/node-webkit-v0.8.4-linux-x64
+cp -r $CROOT/prebuilt/node-webkit-v0.8.6-linux-ia32 $i386Path/node-webkit-v0.8.6-linux-ia32
+cp -r $CROOT/prebuilt/node-webkit-v0.8.6-linux-x64 $amd64Path/node-webkit-v0.8.6-linux-x64
 echo Copy demo-webde...
 cp -r $CROOT/app/demo-webde/nw/* $resourcePath/demo-webde
 rm -rf $resourcePath/demo-webde/old*
@@ -39,6 +39,9 @@ echo Copy demo-rio...
 rm -rf $resourcePath/demo-webde/node_modules/*
 mkdir $resourcePath/demo-webde/node_modules/demo-rio
 cp -r $CROOT/app/demo-rio/nodewebkit/* $resourcePath/demo-webde/node_modules/demo-rio
+cd $resourcePath/demo-webde/node_modules/demo-rio/backend/app/default/
+rm -f ./App.list
+mv ./App.list-inDeb ./App.list
 echo Copy sdk...
 cp -r $CROOT/app/demo-rio/sdk $resourcePath
 
@@ -61,8 +64,7 @@ rm -rf ./*
 ln -s ../../../demo-webde/node_modules/demo-rio demo-rio 
 
 echo Copy init shell...
-cp -r $CROOT/build/core/init_rio.sh $initPath
-cp -r $CROOT/build/core/init_database.sh $initPath
+cp -r $CROOT/build/deb/init/init_custard.sh $initPath
 
 echo create node modules...
 rm -rf $resourcePath/demo-webde/node_modules/demo-rio/node_modules/*
