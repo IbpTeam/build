@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=webde
-Name[zh_CN]=webde
+Name[zh_CN]=桌面管理器
 Comment=webde
 Exec=/usr/share/webde/node-webkit/nw /usr/share/webde/demo-webde
 Icon=webde.png
