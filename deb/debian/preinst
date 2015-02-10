@@ -1,6 +1,0 @@
-#!/bin/bash
-
-echo starting pre-install....
-
-sudo apt-get install xdotool ssh sqlite3 libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen libav-tools
-sudo apt-get install -f
