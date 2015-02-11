@@ -12,7 +12,7 @@ appPath=$debDir/$debName/usr/share/$debName/app
 initPath=$debDir/$debName/usr/share/$debName/init
 i386Path=$debDir/$debName/i386
 amd64Path=$debDir/$debName/amd64
-applist=(newdatamgr viewerPDF controlPPT)
+applist=(newdatamgr viewerPDF controlPPT feedback)
 nodeModules=(chokidar csvtojson dbus file-stream fs-extra getmac hashtable id3v2-parser node-rsa request socket.io socket.io-client sqlite3 tape ws)
 
 echo Clean last build package...
