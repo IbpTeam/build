@@ -57,6 +57,12 @@ do
   rm lib
   ln -s ../../sdk/lib
 done
+cd $resourcePath/demo-webde/app/app-register
+rm -f lib
+ln -s ../../../sdk/lib 
+cd $resourcePath/demo-webde/app/server-setting
+rm -f lib
+ln -s ../../../sdk/lib 
 
 echo Create datamgr link...
 cd $debDir/$debName/usr/share/$debName/app/newdatamgr/node_modules
