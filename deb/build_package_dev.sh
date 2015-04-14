@@ -12,7 +12,7 @@ appPath=$debDir/$debName/usr/share/$debName/app
 initPath=$debDir/$debName/usr/share/$debName/init
 i386Path=$debDir/$debName/i386
 amd64Path=$debDir/$debName/amd64
-applist=(newdatamgr viewerPDF controlPPT feedback)
+applist=(newdatamgr viewerPDF controlPPT)
 nodeModules=(chokidar csvtojson dbus file-stream fs-extra getmac hashtable id3v2-parser node-rsa request socket.io socket.io-client sqlite3 tape ws nodegit)
 
 echo Clean last build package...
@@ -58,9 +58,6 @@ do
   ln -s ../../sdk/lib
 done
 cd $resourcePath/demo-webde/app/app-register
-rm -f lib
-ln -s ../../../sdk/lib 
-cd $resourcePath/demo-webde/app/server-setting
 rm -f lib
 ln -s ../../../sdk/lib 
 

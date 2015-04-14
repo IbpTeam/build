@@ -460,3 +460,14 @@ function bp () {
     bash $T/build/deb/build_package.sh || return
     echo --------------------- Build Package Finished---------------------
 }
+
+function bp-dev () {
+    echo --------------------- Build Package ---------------------
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+    bash $T/build/deb/build_package_dev.sh || return
+    echo --------------------- Build Package Finished---------------------
+}

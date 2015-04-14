@@ -14,10 +14,10 @@ mkdir -p $basePath
 cd $basePath&& mkdir $configPath&& cd $configPath
 echo -e $userConifg > uniqueID.js
 cd $basePath&& mkdir $resourcePath&& cd $resourcePath
-cateArr=(music document video picture desktop other)
+cateArr=(music document video picture desktop other contactDes musicDes documentDes videoDes pictureDes desktopDes otherDes)
 for cateDir in ${cateArr[@]}
 do
-   mkdir $cateDir&& cd $cateDir&& mkdir data&& cd ..
+   mkdir $cateDir&& cd $cateDir&& mkdir data&& git init&& cd ..
 done
 
 if [ $# == 1 ] ; then
