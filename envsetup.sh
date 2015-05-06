@@ -137,6 +137,17 @@ function repo()
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
+    if [ $# -eq 1 ] ; then
+        if [ "$1" == "sync" ] ; then
+            res=`repo status | grep ^project | sed /branch\ master$/d | wc -l`
+            if [ ! "$res" == "0" ] ; then
+                echo "You should checkout the following projects into master branch before executing repo sync, like using cmaster"
+                repo status | grep ^project | sed /branch\ master$/d
+                return 1
+            fi
+        fi
+    fi
+
     
     $T/.repo/repo/repo $*
 
@@ -223,8 +234,10 @@ function cmaster()
         return 1
     fi
 
-    repo forall -c git checkout -B master remotes/m/master
+    repo forall -c git checkout -b master remotes/m/master 2>/dev/null
+    repo forall -c git checkout -q master
     repo forall -c git config push.default upstream
+    repo branches | grep ^*
 }
 
 function checktools()
