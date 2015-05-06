@@ -8,10 +8,10 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - lall:      Create link with node modules from global for all app included demo-rio datamgr testAPI webde/nw
 - lapp:      Create link with node modules from global for one app in current path or param 1 path.
 - r:         Run
-- irio:       Initialize Rio: 1.create directory for resources; 2.create and clean database.
+- irio       Initialize Rio: 1.create directory for resources; 2.create and clean database.
 - cr:        Change Runtime
 - godir:     Go to the directory containing a file.
-- bp       Build package.
+- bp         Build package.
 - h:         Show more help.
 
 Look at the source to view more functions. The complete list is:
