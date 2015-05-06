@@ -233,10 +233,14 @@ function cmaster()
         echo "Couldn't locate the top of the tree.  Try setting TOP."
         return 1
     fi
+    echo "Before cmaster: repo branches are"
+    repo branches | grep ^*
 
+    echo "Executing..."
     repo forall -c git checkout -b master remotes/m/master 2>/dev/null
     repo forall -c git checkout -q master
     repo forall -c git config push.default upstream
+    echo "After cmaster: repo branches are"
     repo branches | grep ^*
 }
 
