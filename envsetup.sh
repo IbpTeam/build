@@ -1,7 +1,8 @@
 function hh() {
 cat <<EOF
 Invoke ". set_env" from your shell to add the following functions to your environment:
-- cmaster:   Create master branch for commit code by git push.
+- cmaster:   Create master branch for committing code by git push.
+- cm:        Change the manifest for changing the master branch.
 - m:         Build
 - idep:      Install dependency lib.
 - mall:      Build all node modules. No param will build for nw, while with param --node will build for node.
@@ -242,6 +243,67 @@ function cmaster()
     repo forall -c git config push.default upstream
     echo "After cmaster: repo branches are"
     repo branches | grep ^*
+}
+
+function cm()
+{
+    T=$(gettop)
+    if [ ! "$T" ]; then
+        echo "Couldn't locate the top of the tree.  Try setting TOP."
+        return 1
+    fi
+
+    local currentxml
+    currentxml=$(basename $(readlink  $T/.repo/manifest.xml))
+    echo "The current manifest is $currentxml"
+
+    local lines
+    lines=($(cd $T/.repo/manifests && ls *.xml | sort | uniq))
+
+    local toxml
+    if [ $# == 0 ] ; then
+      echo "You can change into following manifest files:"
+      local i
+      local choice
+      i=1
+      for file in ${lines[@]}; do
+        echo $i. $file
+        i=$(($i + 1))
+      done
+      unset choice
+      read choice
+      if [[ $choice -gt ${#lines[@]} || $choice -lt 1 ]]; then
+        echo "Invalid choice"
+        return 1
+      fi
+      toxml=${lines[$(($choice-1))]}
+    else
+      if [ -f $T/.repo/manifests/$1.xml ] ; then
+        toxml=$1.xml
+      else
+        echo "The $1 manifest file does not exists."
+        return 1
+      fi
+    fi
+
+    if [ "$currentxml" == "$toxml" ] ; then
+      echo "The manifest has already been $toxml."
+      return 0
+    fi
+
+    res=`repo status | grep ^project | sed /branch\ master$/d | wc -l`
+    if [ ! "$res" == "0" ] ; then
+      echo "You should checkout the following projects into master branch before executing cm, like using cmaster"
+      repo status | grep ^project | sed /branch\ master$/d
+      return 1
+    fi
+
+    echo "------------------------------------------"
+    echo "Start changing manifest into $toxml"
+    repo init -m $toxml
+    echo "------------------------------------------"
+    echo "Start repo sync with new manifest $toxml"
+    repo sync
 }
 
 function checktools()
