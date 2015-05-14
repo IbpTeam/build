@@ -55,22 +55,37 @@ function link_modules_for_one_app(){
           mkdir node_modules
       fi
       if [ ! -e node_modules/$file ] ; then
-          if [ ! -e ../../../out/nodejs/lib/node_modules/$file ] ; then
+          if [ ! -e $OUT/nodejs/lib/node_modules/$file ] ; then
               echo Error: No node_modules/$file found! You should execute m successful!
               return 1
           fi
-          ln -s ../../../../out/nodejs/lib/node_modules/$file node_modules/$file
+          ln -s $OUT/nodejs/lib/node_modules/$file node_modules/$file
       fi
   done
 }
 
 function link_modules_for_all_app(){
+
+cd $CROOT/app/demo-rio/service/commdaemon
+bash $CROOT/build/core/link_modules_for_app.sh $CROOT/app/demo-rio/service/commdaemon
+npm link
+
+cd $CROOT/app/demo-rio/webde-rpc
+bash $CROOT/build/core/link_modules_for_app.sh $CROOT/app/demo-rio/webde-rpc
+npm link
+
+cd $CROOT/app/demo-rio/nodewebkit
+bash $CROOT/build/core/link_modules_for_app.sh $CROOT/app/demo-rio/nodewebkit
+npm link
+
+
   link_modules_for_one_app $CROOT/app/demo-rio/nodewebkit || return 1
   link_modules_for_one_app $CROOT/app/demo-rio/datamgr || return 1
   link_modules_for_one_app $CROOT/app/demo-rio/testAPI || return 1
   link_modules_for_one_app $CROOT/app/demo-webde/nw || return 1
   link_modules_for_one_app $CROOT/app/demo-webde/ui-lib || return 1
   link_modules_for_one_app $CROOT/app/demo-rio/newdatamgr || return 1
+  link_modules_for_one_app $CROOT/app/demo-rio/service/commdaemon || return 1
 }
 
 if [ $# == 1 ] ; then
