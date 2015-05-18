@@ -115,11 +115,11 @@ function link_module_to_global()
 
 function link_modules_for_all()
 {
-  link_node_modules_from_global $CROOT/app/demo-rio/service/commdaemon || return 1
-  link_module_to_global $CROOT/app/demo-rio/service/commdaemon || return 1
+  link_node_modules_from_global $CROOT/service/commdaemon || return 1
+  link_module_to_global $CROOT/service/commdaemon || return 1
 
-  link_node_modules_from_global $CROOT/app/demo-rio/webde-rpc || return 1
-  link_module_to_global $CROOT/app/demo-rio/webde-rpc || return 1
+  link_node_modules_from_global $CROOT/framework/webde-rpc || return 1
+  link_module_to_global $CROOT/framework/webde-rpc || return 1
 
   link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
   link_module_to_global $CROOT/app/demo-rio/nodewebkit || return 1
