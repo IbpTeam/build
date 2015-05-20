@@ -115,11 +115,6 @@ function link_module_to_global()
 
 function link_modules_for_all()
 {
-  link_node_modules_from_global $CROOT/app/demo-rio/service/commdaemon || return 1
-  link_module_to_global $CROOT/app/demo-rio/service/commdaemon || return 1
-
-  link_node_modules_from_global $CROOT/app/demo-rio/webde-rpc || return 1
-  link_module_to_global $CROOT/app/demo-rio/webde-rpc || return 1
 
   link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
   link_module_to_global $CROOT/app/demo-rio/nodewebkit || return 1
@@ -130,7 +125,6 @@ function link_modules_for_all()
   link_modules_from_global $CROOT/app/demo-webde/nw || return 1
   link_modules_from_global $CROOT/app/demo-webde/ui-lib || return 1
   link_modules_from_global $CROOT/app/demo-rio/newdatamgr || return 1
-  link_modules_from_global $CROOT/app/demo-rio/service/commdaemon || return 1
 }
 
 if [ $# == 1 ] ; then
