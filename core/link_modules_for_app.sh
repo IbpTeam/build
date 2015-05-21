@@ -5,11 +5,51 @@ if [ "$CROOT" == "" ] ; then
 fi
 set -e
 
-function link_modules_for_one_app(){
+function create_link_module()
+{
+  file=$1
+  if [ ! -d node_modules ] ; then
+      mkdir node_modules
+  fi
+  isnode=0
+  if [ $# == 1 -a "$2" == "--node" ] ; then
+    isnode=1
+  fi
+  if [ ! -e $OUT/nodejs/lib/node_modules/$file ] ; then
+      echo Error: No node_modules/$file found! You should execute m successful!
+      return 1
+  fi
+  if [ $isnode == 1 -a -e node_modules/$file/binding.gyp ] ; then
+      if [ -e $OUT/node4nw/lib/node_modules/$file ] ; then
+          ln -s -f $OUT/node4nw/lib/node_modules/$file node_modules/$file
+          echo Linked node module $file for nw successfully.
+      else
+          echo Error: No $file has been built for nw, so you should make sure that mm $file or m has been executed successfully.
+          return 1
+      fi
+  else
+      ln -s $OUT/nodejs/lib/node_modules/$file node_modules/$file
+      echo Linked node module $file successfully.
+  fi
+}
+
+function link_node_modules_from_global(){
   cd $1
   echo
   echo -----------------------------------
-  echo Link node modules for $1
+  echo Link node modules from global for $PWD \(only node\)
+  echo
+  for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | grep @  | cut -d '@' -f 1`
+  do
+    create_link_module $file --node
+  done
+}
+
+function link_modules_from_global(){
+  cd $1
+  echo
+  echo -----------------------------------
+  echo Link node modules from global for $PWD \(for nw app\)
   echo
 
   if [ ! -f package.json ] ; then
@@ -33,6 +73,7 @@ function link_modules_for_one_app(){
 
   if [ "$PWD" == "$CROOT/app/demo-webde/ui-lib" ] ; then
       echo For ui-lib, we now use npm install to solve dependency.
+      npm link demo-rio || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
@@ -42,6 +83,7 @@ function link_modules_for_one_app(){
 
     if [ "$PWD" == "$CROOT/app/demo-rio/newdatamgr" ] ; then
       echo For demo-rio/newdatamgr, we now use npm install to solve dependency.
+      npm link demo-rio || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
@@ -51,55 +93,52 @@ function link_modules_for_one_app(){
 
   for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | grep @  | cut -d '@' -f 1`
   do
-      if [ ! -d node_modules ] ; then
-          mkdir node_modules
-      fi
-      if [ ! -e node_modules/$file ] ; then
-          if [ ! -e $OUT/nodejs/lib/node_modules/$file ] ; then
-              echo Error: No node_modules/$file found! You should execute m successful!
-              return 1
-          fi
-          ln -s $OUT/nodejs/lib/node_modules/$file node_modules/$file
-      fi
+    create_link_module $file
   done
 }
 
-function link_modules_for_all_app(){
+function link_module_to_global()
+{
+  cd $1
+  echo
+  echo -----------------------------------
+  echo Link node module $PWD to global
+  echo
 
-cd $CROOT/app/demo-rio/service/commdaemon
-bash $CROOT/build/core/link_modules_for_app.sh $CROOT/app/demo-rio/service/commdaemon
-npm link
+  if [ ! -f package.json ] ; then
+      echo Error: no package.json found!
+      return 1
+  fi
 
-cd $CROOT/app/demo-rio/webde-rpc
-bash $CROOT/build/core/link_modules_for_app.sh $CROOT/app/demo-rio/webde-rpc
-npm link
+  npm link
+}
 
-cd $CROOT/app/demo-rio/nodewebkit
-bash $CROOT/build/core/link_modules_for_app.sh $CROOT/app/demo-rio/nodewebkit
-npm link
+function link_modules_for_all()
+{
 
+  link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
+  link_module_to_global $CROOT/app/demo-rio/nodewebkit || return 1
 
-  link_modules_for_one_app $CROOT/app/demo-rio/nodewebkit || return 1
-  link_modules_for_one_app $CROOT/app/demo-rio/datamgr || return 1
-  link_modules_for_one_app $CROOT/app/demo-rio/testAPI || return 1
-  link_modules_for_one_app $CROOT/app/demo-webde/nw || return 1
-  link_modules_for_one_app $CROOT/app/demo-webde/ui-lib || return 1
-  link_modules_for_one_app $CROOT/app/demo-rio/newdatamgr || return 1
-  link_modules_for_one_app $CROOT/app/demo-rio/service/commdaemon || return 1
+  link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
+  link_modules_from_global $CROOT/app/demo-rio/datamgr || return 1
+  link_modules_from_global $CROOT/app/demo-rio/testAPI || return 1
+  link_modules_from_global $CROOT/app/demo-webde/nw || return 1
+  link_modules_from_global $CROOT/app/demo-webde/ui-lib || return 1
+  link_modules_from_global $CROOT/app/demo-rio/newdatamgr || return 1
 }
 
 if [ $# == 1 ] ; then
   if [ "$1" == "all" ] ; then
-    link_modules_for_all_app || exit 1
+    link_modules_for_all || exit 1
   elif [ -d $1 ] ; then
-    link_modules_for_one_app $1 || exit 1
+    link_node_modules_from_global $1 || exit 1
   else
     echo Error: can recognize $*
     exit 1
   fi
 elif [ $# == 0 ] ; then
   #no param, we choose default app path to link modules
-  link_modules_for_one_app $PWD || exit 1
+  link_node_modules_from_global $PWD || exit 1
 else
   echo Error: can recognize $*
   exit 1

@@ -10,8 +10,8 @@ if [ $UID -eq 0 ]; then
   exit 1
 fi
 
-if [ ! "$(dirname $(dirname $PWD))" == "$CROOT/src" ] ; then
-  echo Error: this is not node module source path.
+if [ ! -f package.json ] ; then
+  echo Error: this is not a node module for no package.json.
   exit 1
 fi
 
@@ -33,9 +33,10 @@ if [ -f package.json ] ; then
       echo Error: No WD_RT_VERSION is set. You should execute source set_env at project root path.
       exit 1
     fi
-    echo ---Rebuilding module for nw ${WD_RT_VERSION%%-*}
+    echo ---Installing and rebuilding  module for nw ${WD_RT_VERSION%%-*}
     if [ -f binding.gyp ] ; then
-        $OUT/nodejs/bin/nw-gyp rebuild --target=${WD_RT_VERSION%%-*}
+        npm_config_prefix=$OUT/node4nw npm install -g
+        (cd $OUT/node4nw/lib/node_modules/$(basename $PWD) ;$OUT/nodejs/bin/nw-gyp rebuild --target=${WD_RT_VERSION%%-*})
     fi
     echo ---Finish rebuilding module for nw ${WD_RT_VERSION%%-*}
   fi
