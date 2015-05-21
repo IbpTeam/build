@@ -159,6 +159,12 @@ function repo()
     fi
 }
 
+function npm4nw()
+{
+    npm_config_prefix=$OUT/node4nw npm $*
+}
+
+
 function resource()
 {
     source $T/build/envsetup.sh
