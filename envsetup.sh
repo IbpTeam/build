@@ -140,10 +140,10 @@ function repo()
     fi
     if [ $# -eq 1 ] ; then
         if [ "$1" == "sync" ] ; then
-            res=`repo status | grep ^project | sed /branch\ master$/d | wc -l`
+            res=`repo status | grep ^project | grep branch | sed /branch\ master$/d | wc -l`
             if [ ! "$res" == "0" ] ; then
                 echo "You should checkout the following projects into master branch before executing repo sync, like using cmaster"
-                repo status | grep ^project | sed /branch\ master$/d
+                repo status | grep ^project | grep branch | sed /branch\ master$/d
                 return 1
             fi
         fi
