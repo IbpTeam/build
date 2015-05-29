@@ -116,14 +116,15 @@ function link_module_to_global()
 function link_modules_for_all()
 {
   #Link modules for services
-  link_node_modules_from_global $CROOT/service/commdaemon || return 1
-  link_module_to_global $CROOT/service/commdaemon || return 1
+  link_module_to_global $CROOT/framework/api || return 1
+  link_module_to_global $CROOT/framework/utils || return 1
+  link_module_to_global $CROOT/framework/systemconfig || return 1
 
   link_node_modules_from_global $CROOT/framework/webde-rpc || return 1
   link_module_to_global $CROOT/framework/webde-rpc || return 1
 
-  link_module_to_global $CROOT/framework/api || return 1
-  link_module_to_global $CROOT/framework/utils || return 1
+  link_node_modules_from_global $CROOT/service/commdaemon || return 1
+  link_module_to_global $CROOT/service/commdaemon || return 1
 
   link_node_modules_from_global $CROOT/service/appmgr || return 1
   link_node_modules_from_global $CROOT/service/datamgr || return 1
@@ -131,7 +132,7 @@ function link_modules_for_all()
   link_node_modules_from_global $CROOT/service/im || return 1
   link_node_modules_from_global $CROOT/service/lang || return 1
   link_node_modules_from_global $CROOT/service/mix || return 1
-
+  
   link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
   link_module_to_global $CROOT/app/demo-rio/nodewebkit || return 1
 
