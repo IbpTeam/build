@@ -556,3 +556,49 @@ function bp-dev () {
     bash $T/build/deb/build_package_dev.sh || return
     echo --------------------- Build Package Finished---------------------
 }
+
+function log () {
+  echo --------------------- Echo Git Log ---------------------
+  T=$(gettop)
+  if [ ! "$T" ]; then
+    echo "Couldn't locate the top of the tree.  Try setting TOP."
+    return 1
+  fi
+
+  if [ $# -lt 1 ]; then
+    echo "Usage: log email [after_data before_data]"
+    echo "e.g. log lianggy0719@126.com 2015-01-01 2015-02-05"
+    echo "  or log lianggy0719@126.com"
+    echo "The second example will return commits one week ago by default"
+    return 1
+  fi
+
+  local currentxml=$(readlink $T/.repo/manifest.xml)
+  local filepath="$T/.repo/$currentxml"
+
+  local author=$1
+  local after
+  local before
+  if [ $# == 3 ]; then
+    after=$2
+    before=$3
+  else
+    after="1.weeks.ago"
+  fi
+
+  local sepatator="*******************************************************************************************"
+  local date="提交时间"
+  local description="提交描述"
+  local change="提交变更"
+
+  echo "" > ~/LOG
+  for line in `grep -Eo "path=\""[^\"]+"\"" $filepath | awk -F \" '{print $2}'`; do
+    echo -e "\nProject $line:\n" >> ~/LOG
+    cd $T/$line && git log --branches -p --stat --pretty=format:"$sepatator%n$date：%cd%n$description：%s%n$change：%n"\
+  --author=$author --no-merges --after={$after} --before={$before} >> ~/LOG
+    # echo $line
+  done
+  cd $T
+  echo --------------------- Echo Git Log Finished ---------------------
+}
+
