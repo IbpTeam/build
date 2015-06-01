@@ -13,6 +13,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - cr:        Change Runtime
 - godir:     Go to the directory containing a file.
 - bp         Build package.
+- log:       Echo your code's contribution about all repositries into ~/LOG.
 - h:         Show more help.
 
 Look at the source to view more functions. The complete list is:
