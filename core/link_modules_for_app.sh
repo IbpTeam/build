@@ -116,9 +116,12 @@ function link_module_to_global()
 function link_modules_for_all()
 {
   #Link modules for services
-  link_module_to_global $CROOT/framework/api || return 1
-  link_module_to_global $CROOT/framework/utils || return 1
   link_module_to_global $CROOT/framework/systemconfig || return 1
+
+  link_node_modules_from_global $CROOT/framework/api || return 1
+  link_module_to_global $CROOT/framework/api || return 1
+
+  link_module_to_global $CROOT/framework/utils || return 1
 
   link_node_modules_from_global $CROOT/framework/webde-rpc || return 1
   link_module_to_global $CROOT/framework/webde-rpc || return 1
