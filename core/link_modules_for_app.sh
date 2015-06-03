@@ -135,6 +135,8 @@ function link_modules_for_all()
   link_node_modules_from_global $CROOT/service/im || return 1
   link_node_modules_from_global $CROOT/service/lang || return 1
   link_node_modules_from_global $CROOT/service/mix || return 1
+  link_node_modules_from_global $CROOT/service/clipboard || return 1
+  link_node_modules_from_global $CROOT/service/hardresmgr || return 1
   
   link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
   link_module_to_global $CROOT/app/demo-rio/nodewebkit || return 1
