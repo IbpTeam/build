@@ -40,20 +40,11 @@ function checkInstaller {
 function installDependenciesWithApt {
     # These are dependencies necessary for building node-module mdns.
   set +e 
-    dpkg -L libdbus-1-dev libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg xdotool sqlite3 sqlitebrowser>/dev/null
+    dpkg -L libdbus-1-dev libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen xdotool sqlite3 sqlitebrowser>/dev/null
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
-      if [ `command -v lsb_release` ] ; then
-        if [ "`lsb_release -cs`" == "qiana"  ] ; then
-          sudo add-apt-repository -y ppa:jon-severinsson/ffmpeg
-          sudo apt-get update
-        elif [ "`lsb_release -cs`" == "rebecca"  ] ; then
-          sudo add-apt-repository -y ppa:jon-severinsson/ffmpeg
-          sudo apt-get update
-        fi
-      fi
-      sudo apt-get install libdbus-1-dev libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen ffmpeg xdotool sqlite3 sqlitebrowser
+      sudo apt-get install libdbus-1-dev libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen xdotool sqlite3 sqlitebrowser
     fi
   
     echo install ruby
