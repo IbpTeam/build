@@ -34,11 +34,26 @@ function setenv()
         return 1
     fi
 
+    echo -----------------------------------------------
     export CROOT=$T
     export TOP=$T
     export OUT=$T/out
-    export WD_RUNTIME=node-webkit
-    export WD_RT_VERSION=0.8.4
+    echo CROOT: $CROOT
+    echo OUT: $OUT
+    machine=$(uname -m)
+    if [ $machine == "i686" ] ; then
+        export WD_RUNTIME=node-webkit
+        export WD_RT_VERSION=0.8.4
+        echo Runtime is $WD_RUNTIME $WD_RT_VERSION
+    elif [ $machine == 'x86_64' ] ; then
+        export WD_RUNTIME=node-webkit
+        export WD_RT_VERSION=0.8.6-linux-x64
+        echo Runtime is $WD_RUNTIME $WD_RT_VERSION
+    else
+        export WD_RUNTIME=node-webkit
+        export WD_RT_VERSION=0.8.4
+        echo We choose default runtime $WD_RUNTIME $WD_RT_VERSION for unknown machine\($machine\)
+    fi
     export npm_config_userconfig=$OUT/nodejs/.npmrc
     if [ ! -e $OUT/nodejs/.npmrc ] ; then
         if [ ! -e $OUT/nodejs ] ; then
@@ -52,6 +67,7 @@ function setenv()
     addpath "$OUT/nodejs/bin"
 
     (cd $T/documents;git config core.quotepath false)
+    echo -----------------------------------------------
 }
 
 function cr()
