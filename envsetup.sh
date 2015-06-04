@@ -41,18 +41,22 @@ function setenv()
     echo CROOT: $CROOT
     echo OUT: $OUT
     machine=$(uname -m)
-    if [ $machine == "i686" ] ; then
-        export WD_RUNTIME=node-webkit
-        export WD_RT_VERSION=0.8.4
-        echo Runtime is $WD_RUNTIME $WD_RT_VERSION
-    elif [ $machine == 'x86_64' ] ; then
-        export WD_RUNTIME=node-webkit
-        export WD_RT_VERSION=0.8.6-linux-x64
-        echo Runtime is $WD_RUNTIME $WD_RT_VERSION
+    if [ ! $WD_RUNTIME -o ! $WD_RT_VERSION  ] ; then
+        if [ $machine == "i686" ] ; then
+            export WD_RUNTIME=node-webkit
+            export WD_RT_VERSION=0.8.4
+            echo Runtime is $WD_RUNTIME $WD_RT_VERSION
+        elif [ $machine == 'x86_64' ] ; then
+            export WD_RUNTIME=node-webkit
+            export WD_RT_VERSION=0.8.6-linux-x64
+            echo Runtime is $WD_RUNTIME $WD_RT_VERSION
+        else
+            export WD_RUNTIME=node-webkit
+            export WD_RT_VERSION=0.8.4
+            echo We choose default runtime $WD_RUNTIME $WD_RT_VERSION for unknown machine\($machine\)
+        fi
     else
-        export WD_RUNTIME=node-webkit
-        export WD_RT_VERSION=0.8.4
-        echo We choose default runtime $WD_RUNTIME $WD_RT_VERSION for unknown machine\($machine\)
+        echo Runtime is kept as  $WD_RUNTIME $WD_RT_VERSION
     fi
     export npm_config_userconfig=$OUT/nodejs/.npmrc
     if [ ! -e $OUT/nodejs/.npmrc ] ; then

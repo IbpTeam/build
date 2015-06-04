@@ -38,7 +38,10 @@ if [ -f package.json ] ; then
         npm_config_prefix=$OUT/node4nw npm install -g
         for path in `(cd $OUT/node4nw/lib/node_modules/$(basename $PWD) ; find -name binding.gyp)`
         do
-          (cd $OUT/node4nw/lib/node_modules/$(basename $PWD)/$(dirname $path) ;$OUT/nodejs/bin/nw-gyp rebuild --target=${WD_RT_VERSION%%-*})
+          pparentname=$(basename $(dirname $(dirname $path)));
+          if [ $pparentname == "." -o $pparentname == "node_modules" ] ; then
+            (cd $OUT/node4nw/lib/node_modules/$(basename $PWD)/$(dirname $path) ;$OUT/nodejs/bin/nw-gyp rebuild --target=${WD_RT_VERSION%%-*})
+          fi
         done
     fi
     echo ---Finish rebuilding module for nw ${WD_RT_VERSION%%-*}
