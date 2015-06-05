@@ -12,21 +12,16 @@ function create_link_module()
       mkdir node_modules
   fi
   isnode=0
-  if [ $# == 1 -a "$2" == "--node" ] ; then
+  if [ $# == 2 -a "$2" == "--node" ] ; then
     isnode=1
   fi
   if [ ! -e $OUT/nodejs/lib/node_modules/$file ] ; then
       echo Error: No node_modules/$file found! You should execute m successful!
       return 1
   fi
-  if [ $isnode == 1 -a -e node_modules/$file/binding.gyp ] ; then
-      if [ -e $OUT/node4nw/lib/node_modules/$file ] ; then
-          ln -s -f $OUT/node4nw/lib/node_modules/$file node_modules/$file
-          echo Linked node module $file for nw successfully.
-      else
-          echo Error: No $file has been built for nw, so you should make sure that mm $file or m has been executed successfully.
-          return 1
-      fi
+  if [ $isnode == 0 -a -e $OUT/node4nw/lib/node_modules/$file ] ; then
+      ln -s -f $OUT/node4nw/lib/node_modules/$file node_modules/$file
+      echo Linked node module $file for nw successfully.
   else
       ln -s $OUT/nodejs/lib/node_modules/$file node_modules/$file
       echo Linked node module $file successfully.
@@ -113,6 +108,20 @@ function link_module_to_global()
   npm link
 }
 
+function unlink_modules()
+{
+  cd $1
+  echo
+  echo -----------------------------------
+  echo Remove all link in node_modules of $PWD
+  echo
+
+  for file in `find node_modules/ -maxdepth 1 -type l 2>/dev/null`
+  do
+    rm $file || return 1
+  done
+}
+
 function link_modules_for_all()
 {
   #Link modules for services
@@ -137,15 +146,21 @@ function link_modules_for_all()
   link_node_modules_from_global $CROOT/service/mix || return 1
   link_node_modules_from_global $CROOT/service/clipboard || return 1
   link_node_modules_from_global $CROOT/service/hardresmgr || return 1
-  
+ 
+  #Link moduels for app
+  unlink_modules $CROOT/app/demo-rio/nodewebkit || return 1
   link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
   link_module_to_global $CROOT/app/demo-rio/nodewebkit || return 1
 
-  #Link moduels for app
+  unlink_modules $CROOT/app/demo-rio/datamgr || return 1
   link_modules_from_global $CROOT/app/demo-rio/datamgr || return 1
+  unlink_modules $CROOT/app/demo-rio/testAPI || return 1
   link_modules_from_global $CROOT/app/demo-rio/testAPI || return 1
+  unlink_modules $CROOT/app/demo-webde/nw || return 1
   link_modules_from_global $CROOT/app/demo-webde/nw || return 1
+  unlink_modules $CROOT/app/demo-webde/ui-lib || return 1
   link_modules_from_global $CROOT/app/demo-webde/ui-lib || return 1
+  unlink_modules $CROOT/app/demo-rio/newdatamgr || return 1
   link_modules_from_global $CROOT/app/demo-rio/newdatamgr || return 1
 }
 
@@ -153,7 +168,7 @@ if [ $# == 1 ] ; then
   if [ "$1" == "all" ] ; then
     link_modules_for_all || exit 1
   elif [ -d $1 ] ; then
-    link_node_modules_from_global $1 || exit 1
+    link_modules_from_global $1 || exit 1
   else
     echo Error: can recognize $*
     exit 1
