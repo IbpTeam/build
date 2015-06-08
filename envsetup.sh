@@ -13,6 +13,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - cr:        Change Runtime
 - godir:     Go to the directory containing a file.
 - bp         Build package.
+- genlog:    Echo your code's contribution about all repositries into ~/LOG by default.
 - h:         Show more help.
 
 Look at the source to view more functions. The complete list is:
@@ -576,3 +577,55 @@ function bp-dev () {
     bash $T/build/deb/build_package_dev.sh || return
     echo --------------------- Build Package Finished---------------------
 }
+
+function genlog () {
+  echo --------------------- Echo Git Log ---------------------
+  T=$(gettop)
+  if [ ! "$T" ]; then
+    echo "Couldn't locate the top of the tree.  Try setting TOP."
+    return 1
+  fi
+
+  local after
+  local before
+  local output
+  if [ $# == 1 ]; then
+    output="$HOME/LOG"
+    after="1.weeks.ago"
+  elif [ $# == 2 ]; then
+    output="$HOME/$2"
+    after="1.weeks.ago"
+  elif [ $# == 3 ]; then
+    output="$HOME/LOG"
+    after=$2
+    before=$3
+  elif [ $# == 4 ]; then
+    output="$HOME/$4"
+    after=$2
+    before=$3
+  else
+    echo "Usage: genlog email [after_data before_data] [output filename]"
+    echo "e.g. genlog lianggy0719@126.com 2015-01-01 2015-02-05 MyLOG"
+    echo "  or genlog lianggy0719@126.com"
+    echo "p.s. [] means optional"
+    echo "The second example will echo commits during last week into ~/LOG by default"
+    return 1
+  fi
+
+  local author=$1
+  local currentxml="$T/.repo/manifest.xml"
+  local sepatator="*******************************************************************************************"
+  local date="提交时间"
+  local description="提交描述"
+  local change="提交变更"
+
+  echo "" > $output
+  for line in `grep -Eo "path=\""[^\"]+"\"" $currentxml | awk -F \" '{print $2}'`; do
+    echo -e "\nProject $line:\n" >> $output
+    (cd $T/$line && git log --branches -p --stat --pretty=format:"$sepatator%n$date：%cd%n$description：%s%n$change：%n"\
+  --author=$author --no-merges --after={$after} --before={$before} >> $output)
+    # echo $line
+  done
+  echo --------------------- Echo Git Log Finished ---------------------
+}
+

@@ -20,11 +20,11 @@ function create_link_module()
       return 1
   fi
   if [ $isnode == 0 -a -e $OUT/node4nw/lib/node_modules/$file ] ; then
-      ln -s -f $OUT/node4nw/lib/node_modules/$file node_modules/$file
-      echo Linked node module $file for nw successfully.
+    ln -s -f $OUT/node4nw/lib/node_modules/$file node_modules/$file
+    echo Linked node module $file for nw successfully.
   else
-      ln -s $OUT/nodejs/lib/node_modules/$file node_modules/$file
-      echo Linked node module $file successfully.
+    ln -s $OUT/nodejs/lib/node_modules/$file node_modules/$file
+    echo Linked node module $file successfully.
   fi
 }
 
@@ -124,10 +124,38 @@ function unlink_modules()
 
 function link_modules_for_all()
 {
+  #Link modules for services
+  link_module_to_global $CROOT/framework/systemconfig || return 1
+
+  link_module_to_global $CROOT/framework/utils || return 1
+
+  link_node_modules_from_global $CROOT/framework/api || return 1
+  link_module_to_global $CROOT/framework/api || return 1
+
+  link_node_modules_from_global $CROOT/framework/webde-rpc || return 1
+  # temporary
+  ln -s -f $OUT/node4nw/lib/node_modules/dbus node_modules/dbus-nw
+  link_module_to_global $CROOT/framework/webde-rpc || return 1
+
+  link_node_modules_from_global $CROOT/service/commdaemon || return 1
+  link_module_to_global $CROOT/service/commdaemon || return 1
+
+  link_node_modules_from_global $CROOT/service/appmgr || return 1
+  link_node_modules_from_global $CROOT/service/datamgr || return 1
+  link_node_modules_from_global $CROOT/service/httpserver || return 1
+  link_node_modules_from_global $CROOT/service/im || return 1
+  link_node_modules_from_global $CROOT/service/lang || return 1
+  link_node_modules_from_global $CROOT/service/mix || return 1
+  link_node_modules_from_global $CROOT/service/clipboard || return 1
+  link_node_modules_from_global $CROOT/service/hardresmgr || return 1
+ 
+  #Link moduels for app
   unlink_modules $CROOT/app/demo-rio/nodewebkit || return 1
   link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
   link_module_to_global $CROOT/app/demo-rio/nodewebkit || return 1
 
+  unlink_modules $CROOT/app/demo-rio/appExample || return 1
+  link_modules_from_global $CROOT/app/demo-rio/appExample || return 1
   unlink_modules $CROOT/app/demo-rio/datamgr || return 1
   link_modules_from_global $CROOT/app/demo-rio/datamgr || return 1
   unlink_modules $CROOT/app/demo-rio/testAPI || return 1
