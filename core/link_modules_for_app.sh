@@ -20,11 +20,11 @@ function create_link_module()
       return 1
   fi
   if [ $isnode == 0 -a -e $OUT/node4nw/lib/node_modules/$file ] ; then
-      ln -s -f $OUT/node4nw/lib/node_modules/$file node_modules/$file
-      echo Linked node module $file for nw successfully.
+    ln -s -f $OUT/node4nw/lib/node_modules/$file node_modules/$file
+    echo Linked node module $file for nw successfully.
   else
-      ln -s $OUT/nodejs/lib/node_modules/$file node_modules/$file
-      echo Linked node module $file successfully.
+    ln -s $OUT/nodejs/lib/node_modules/$file node_modules/$file
+    echo Linked node module $file successfully.
   fi
 }
 
@@ -133,6 +133,8 @@ function link_modules_for_all()
   link_module_to_global $CROOT/framework/api || return 1
 
   link_node_modules_from_global $CROOT/framework/webde-rpc || return 1
+  # temporary
+  ln -s -f $OUT/node4nw/lib/node_modules/dbus node_modules/dbus-nw
   link_module_to_global $CROOT/framework/webde-rpc || return 1
 
   link_node_modules_from_global $CROOT/service/commdaemon || return 1
