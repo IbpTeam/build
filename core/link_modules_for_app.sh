@@ -133,9 +133,9 @@ function link_modules_for_all()
   link_module_to_global $CROOT/framework/api || return 1
 
   link_node_modules_from_global $CROOT/framework/webde-rpc || return 1
-  # temporary
-  ln -s -f $OUT/node4nw/lib/node_modules/dbus node_modules/dbus-nw
   link_module_to_global $CROOT/framework/webde-rpc || return 1
+  # temporary
+  ln -s $OUT/node4nw/lib/node_modules/dbus $CROOT/framework/webde-rpc/node_modules/dbus-nw
 
   link_node_modules_from_global $CROOT/service/commdaemon || return 1
   link_module_to_global $CROOT/service/commdaemon || return 1
