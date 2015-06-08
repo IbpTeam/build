@@ -152,6 +152,8 @@ function link_modules_for_all()
   link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
   link_module_to_global $CROOT/app/demo-rio/nodewebkit || return 1
 
+  unlink_modules $CROOT/app/demo-rio/appExample || return 1
+  link_modules_from_global $CROOT/app/demo-rio/appExample || return 1
   unlink_modules $CROOT/app/demo-rio/datamgr || return 1
   link_modules_from_global $CROOT/app/demo-rio/datamgr || return 1
   unlink_modules $CROOT/app/demo-rio/testAPI || return 1
