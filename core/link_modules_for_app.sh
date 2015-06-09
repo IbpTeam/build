@@ -58,7 +58,7 @@ function link_modules_from_global(){
         echo cp config file
         cp -r "$PWD/config/" "$HOME/.local/webde" 
       fi
-      npm link demo-rio || return 1
+      npm link demo-rio api || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
@@ -68,7 +68,7 @@ function link_modules_from_global(){
 
   if [ "$PWD" == "$CROOT/app/demo-webde/ui-lib" ] ; then
       echo For ui-lib, we now use npm install to solve dependency.
-      npm link demo-rio || return 1
+      npm link demo-rio api || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
@@ -76,9 +76,9 @@ function link_modules_from_global(){
       return 0
   fi
 
-    if [ "$PWD" == "$CROOT/app/demo-rio/newdatamgr" ] ; then
+  if [ "$PWD" == "$CROOT/app/demo-rio/newdatamgr" ] ; then
       echo For demo-rio/newdatamgr, we now use npm install to solve dependency.
-      npm link demo-rio || return 1
+      npm link demo-rio api || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
@@ -86,6 +86,10 @@ function link_modules_from_global(){
       return 0
   fi
 
+  # If the module is not demo-rio , then it is an app, so we should link demo-rio and api.
+  if [ ! "$PWD" == "$CROOT/app/demo-rio/nodewebkit" ] ; then
+    npm link demo-rio api
+  fi
   for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | grep @  | cut -d '@' -f 1`
   do
     create_link_module $file
