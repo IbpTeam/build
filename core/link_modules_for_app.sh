@@ -175,6 +175,8 @@ function link_modules_for_all()
   link_modules_from_global $CROOT/app/demo-webde/ui-lib || return 1
   unlink_modules $CROOT/app/demo-rio/newdatamgr || return 1
   link_modules_from_global $CROOT/app/demo-rio/newdatamgr || return 1
+  unlink_modules $CROOT/app/demo-rio/controlPPT || return 1
+  link_modules_from_global $CROOT/app/demo-rio/controlPPT || return 1
 }
 
 if [ $# == 1 ] ; then
