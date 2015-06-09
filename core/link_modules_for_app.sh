@@ -133,9 +133,14 @@ function link_modules_for_all()
   link_module_to_global $CROOT/framework/api || return 1
 
   link_node_modules_from_global $CROOT/framework/webde-rpc || return 1
+  # temporary
+  if [ -e $CROOT/framework/webde-rpc/node_modules/dbus-nw ]; then
+    rm $CROOT/framework/webde-rpc/node_modules/dbus-nw
+  fi
   link_module_to_global $CROOT/framework/webde-rpc || return 1
   # temporary
   ln -s $OUT/node4nw/lib/node_modules/dbus $CROOT/framework/webde-rpc/node_modules/dbus-nw
+  echo Linked node module dbus for nw as dbus-nw successfully.
 
   link_node_modules_from_global $CROOT/service/commdaemon || return 1
   link_module_to_global $CROOT/service/commdaemon || return 1
