@@ -8,7 +8,7 @@ configPath=$basePath/config
 resourcePath=$basePath/resource
 typeSourcePath=$CROOT/app/demo-rio/nodewebkit/backend/data
 typePath=$configPath/custard_type
-DefinePath=$typePath/typeDefine
+
 name=`whoami`
 userConifg="var uniqueID=\"rio"$RANDOM"rio\";\nexports.uniqueID=uniqueID;\nvar Account=\""$name"\";\nexports.Account=Account;"
 #If directory exists, remove it.
@@ -29,12 +29,12 @@ if [ -e $typePath ]; then
   rm -rf $typePath
 fi
 mkdir -p $typePath
-if [ -e $DefinePath ]; then
-  rm -rf $DefinePath
+if [ -e $typePath/typeDefine ]; then
+  rm -rf $typePath/typeDefine
 fi
-cp -r -f $typeSourcePath/typeDefine $typePath
+cp -r -f $typeSourcePath/typeDefine $typePath && echo Successful copy folder : $typeSourcePath/typeDefine To $typePath  
 for file in  "contacts.js" "document.js" "music.js" "picture.js" "video.js" "other.js";  do
-  echo $file
+  echo Successful copy file : $file
   cp -f $typeSourcePath/$file $typePath
 done
 
