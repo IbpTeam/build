@@ -8,7 +8,6 @@ configPath=$basePath/config
 resourcePath=$basePath/resource
 typeSourcePath=$CROOT/app/demo-rio/nodewebkit/backend/data
 typePath=$configPath/custard_type
-
 name=`whoami`
 userConifg="var uniqueID=\"rio"$RANDOM"rio\";\nexports.uniqueID=uniqueID;\nvar Account=\""$name"\";\nexports.Account=Account;"
 #If directory exists, remove it.
@@ -39,4 +38,3 @@ for file in  "contacts.js" "document.js" "music.js" "picture.js" "video.js" "oth
 done
 
 exit 0
-
