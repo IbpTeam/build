@@ -14,6 +14,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - godir:     Go to the directory containing a file.
 - bp         Build package.
 - genlog:    Echo your code's contribution about all repositries into ~/LOG by default.
+- svcInit:   Initialize a service package.
 - h:         Show more help.
 
 Look at the source to view more functions. The complete list is:
@@ -627,5 +628,16 @@ function genlog () {
     # echo $line
   done
   echo --------------------- Echo Git Log Finished ---------------------
+}
+
+function svcInit() {
+  echo --------------------- Service Initialize ---------------------
+  if [ -e ./package.json ]; then
+    echo "Service has initialized, or remove ./package.json first."
+    return 1
+  fi
+
+  npm init && mkdir implements interface "test"
+  echo --------------------- Service Initialize Finished ---------------------
 }
 
