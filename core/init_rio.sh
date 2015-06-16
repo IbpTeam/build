@@ -32,9 +32,4 @@ if [ -e $typePath/typeDefine ]; then
   rm -rf $typePath/typeDefine
 fi
 cp -r -f $typeSourcePath/typeDefine $typePath && echo Successful copy folder : $typeSourcePath/typeDefine To $typePath  
-for file in  "contacts.js" "document.js" "music.js" "picture.js" "video.js" "other.js";  do
-  echo Successful copy file : $file
-  cp -f $typeSourcePath/$file $typePath
-done
-
 exit 0
