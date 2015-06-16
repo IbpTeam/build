@@ -24,12 +24,6 @@ do
    mkdir $cateDir&& cd $cateDir&& mkdir data&& git init&& cd ..
 done
 #custard_type
-if [ -e $typePath ]; then
-  rm -rf $typePath
-fi
-mkdir -p $typePath
-if [ -e $typePath/typeDefine ]; then
-  rm -rf $typePath/typeDefine
-fi
+mkdir $typePath
 cp -r -f $typeSourcePath/typeDefine $typePath && echo Successful copy folder : $typeSourcePath/typeDefine To $typePath  
 exit 0
