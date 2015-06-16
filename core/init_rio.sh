@@ -18,7 +18,7 @@ mkdir -p $basePath
 cd $basePath&& mkdir $configPath&& cd $configPath
 echo -e $userConifg > uniqueID.js
 cd $basePath&& mkdir $resourcePath&& cd $resourcePath
-cateArr=(music document video picture desktop other contactDes musicDes documentDes videoDes pictureDes desktopDes otherDes)
+cateArr=(music document video picture desktop other)
 for cateDir in ${cateArr[@]}
 do
    mkdir $cateDir&& cd $cateDir&& mkdir data&& git init&& cd ..
