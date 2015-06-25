@@ -263,14 +263,14 @@ function cmaster()
         return 1
     fi
     echo "Before cmaster: repo branches are"
-    repo branches | grep ^*
+    (repo branches | grep ^* ) 2>/dev/null
 
     echo "Executing..."
     repo forall -c git checkout -b master remotes/m/master 2>/dev/null
     repo forall -c git checkout -q master
     repo forall -c git config push.default upstream
     echo "After cmaster: repo branches are"
-    repo branches | grep ^*
+    (repo branches | grep ^* ) 2>/dev/null
 }
 
 function cm()
