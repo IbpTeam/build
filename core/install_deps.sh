@@ -40,11 +40,11 @@ function checkInstaller {
 function installDependenciesWithApt {
     # These are dependencies necessary for building node-module mdns.
   set +e 
-    dpkg -L libdbus-1-dev libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen xdotool sqlite3 sqlitebrowser>/dev/null
+    dpkg -L libdbus-1-dev libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen xdotool sqlite3 sqlitebrowser xclip>/dev/null
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
-      sudo apt-get install libdbus-1-dev libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen xdotool sqlite3 sqlitebrowser
+      sudo apt-get install libdbus-1-dev libavahi-compat-libdnssd-dev g++ libexpat1-dev python-mutagen xdotool sqlite3 sqlitebrowser xclip
     fi
   
     echo install ruby
