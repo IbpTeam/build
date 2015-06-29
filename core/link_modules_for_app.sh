@@ -58,37 +58,73 @@ function link_modules_from_global(){
         echo cp config file
         cp -r "$PWD/config/" "$HOME/.local/webde" 
       fi
+      # temporary
+      if [ -e $CROOT/framework/api/node_modules/dbus-nw ]; then
+        rm $CROOT/framework/api/node_modules/dbus-nw
+      fi
+      # temporary end
       npm link demo-rio api || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
       fi
+      # temporary
+      ln -s $OUT/node4nw/lib/node_modules/dbus $CROOT/framework/api/node_modules/dbus-nw
+      echo Linked node module dbus for nw as dbus-nw successfully.
+      # temporary end
       return 0
   fi
 
   if [ "$PWD" == "$CROOT/app/demo-webde/ui-lib" ] ; then
       echo For ui-lib, we now use npm install to solve dependency.
+      # temporary
+      if [ -e $CROOT/framework/api/node_modules/dbus-nw ]; then
+        rm $CROOT/framework/api/node_modules/dbus-nw
+      fi
+      # temporary end
       npm link demo-rio api || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
       fi
+      # temporary
+      ln -s $OUT/node4nw/lib/node_modules/dbus $CROOT/framework/api/node_modules/dbus-nw
+      echo Linked node module dbus for nw as dbus-nw successfully.
+      # temporary end
       return 0
   fi
 
   if [ "$PWD" == "$CROOT/app/demo-rio/newdatamgr" ] ; then
       echo For demo-rio/newdatamgr, we now use npm install to solve dependency.
+      # temporary
+      if [ -e $CROOT/framework/api/node_modules/dbus-nw ]; then
+        rm $CROOT/framework/api/node_modules/dbus-nw
+      fi
+      # temporary end
       npm link demo-rio api || return 1
       npm install || return 1
       if [ -e Gruntfile.js ] ; then
           grunt || return 1
       fi
+      # temporary
+      ln -s $OUT/node4nw/lib/node_modules/dbus $CROOT/framework/api/node_modules/dbus-nw
+      echo Linked node module dbus for nw as dbus-nw successfully.
+      # temporary end
       return 0
   fi
 
   # If the module is not demo-rio , then it is an app, so we should link demo-rio and api.
   if [ ! "$PWD" == "$CROOT/app/demo-rio/nodewebkit" ] ; then
+    # temporary
+    if [ -e $CROOT/framework/api/node_modules/dbus-nw ]; then
+      rm $CROOT/framework/api/node_modules/dbus-nw
+    fi
+    # temporary end
     npm link demo-rio api
+    # temporary
+    ln -s $OUT/node4nw/lib/node_modules/dbus $CROOT/framework/api/node_modules/dbus-nw
+    echo Linked node module dbus for nw as dbus-nw successfully.
+    # temporary end
   fi
   for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | grep @  | cut -d '@' -f 1`
   do
@@ -134,17 +170,28 @@ function link_modules_for_all()
   link_module_to_global $CROOT/framework/utils || return 1
 
   link_node_modules_from_global $CROOT/framework/api || return 1
+  # temporary
+  if [ -e $CROOT/framework/api/node_modules/dbus-nw ]; then
+    rm $CROOT/framework/api/node_modules/dbus-nw
+  fi
+  # temporary end
   link_module_to_global $CROOT/framework/api || return 1
+  # temporary
+  ln -s $OUT/node4nw/lib/node_modules/dbus $CROOT/framework/api/node_modules/dbus-nw
+  echo Linked node module dbus for nw as dbus-nw successfully.
+  # temporary end
 
   link_node_modules_from_global $CROOT/framework/webde-rpc || return 1
   # temporary
   if [ -e $CROOT/framework/webde-rpc/node_modules/dbus-nw ]; then
     rm $CROOT/framework/webde-rpc/node_modules/dbus-nw
   fi
+  # temporary end
   link_module_to_global $CROOT/framework/webde-rpc || return 1
   # temporary
   ln -s $OUT/node4nw/lib/node_modules/dbus $CROOT/framework/webde-rpc/node_modules/dbus-nw
   echo Linked node module dbus for nw as dbus-nw successfully.
+  # temporary end
 
   link_node_modules_from_global $CROOT/service/commdaemon || return 1
   link_module_to_global $CROOT/service/commdaemon || return 1
