@@ -6,6 +6,7 @@ basePath=~/.custard
 configPath=$basePath/config
 #resourcePath=~/.resources
 resourcePath=$basePath/resource
+tmpPath=$basePath/tmp
 typeSourcePath=$CROOT/app/demo-rio/nodewebkit/backend/data
 typePath=$configPath/custard_type
 name=`whoami`
@@ -27,4 +28,5 @@ done
 #custard_type
 mkdir $typePath
 cp -r -f $typeSourcePath/typeDefine $typePath && echo Successful copy folder : $typeSourcePath/typeDefine To $typePath  
+mkdir $tmpPath
 exit 0
