@@ -225,6 +225,12 @@ function link_modules_for_all()
   link_modules_from_global $CROOT/app/demo-rio/newdatamgr || return 1
   unlink_modules $CROOT/app/demo-rio/controlPPT || return 1
   link_modules_from_global $CROOT/app/demo-rio/controlPPT || return 1
+  
+  # temporary since svcmgr not implemented
+  if [ ! -e $CROOT/service/data ]; then
+    ln -s $CROOT/service/datamgr $CROOT/service/data
+  fi
+  # temporary end
 }
 
 if [ $# == 1 ] ; then
