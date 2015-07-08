@@ -128,7 +128,7 @@ function link_modules_from_global(){
   fi
   for file in `$OUT/nodejs/bin/npm ls 2>/dev/null | grep "UNMET DEPENDENCY" | cut -d ' ' -f 4 | grep @  | cut -d '@' -f 1`
   do
-    create_link_module $file
+    create_link_module $file --node
   done
 }
 
