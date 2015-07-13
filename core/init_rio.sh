@@ -9,6 +9,7 @@ resourcePath=$basePath/resource
 tmpPath=$basePath/tmp
 typeSourcePath=$CROOT/app/demo-rio/nodewebkit/backend/data
 typePath=$configPath/custard_type
+backupPath=$basePath/backup
 name=`whoami`
 userConifg="var uniqueID=\"rio"$RANDOM"rio\";\nexports.uniqueID=uniqueID;\nvar Account=\""$name"\";\nexports.Account=Account;"
 #If directory exists, remove it.
@@ -25,6 +26,11 @@ do
    #mkdir $cateDir&& cd $cateDir&& mkdir data&& git init&& cd ..
     mkdir $cateDir&& cd $cateDir&& mkdir data && cd ..
 done
+#backup
+if [ -e $backupPath ]; then
+  rm -rf $backupPath
+fi
+mkdir -p $backupPath
 #custard_type
 mkdir $typePath
 cp -r -f $typeSourcePath/typeDefine $typePath && echo Successful copy folder : $typeSourcePath/typeDefine To $typePath  
