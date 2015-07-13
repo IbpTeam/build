@@ -9,7 +9,7 @@ resourcePath=$basePath/resource
 tmpPath=$basePath/tmp
 typeSourcePath=$CROOT/app/demo-rio/nodewebkit/backend/data
 typePath=$configPath/custard_type
-backupPath=$basePath/backup
+backupPath=~/.custardBac
 name=`whoami`
 userConifg="var uniqueID=\"rio"$RANDOM"rio\";\nexports.uniqueID=uniqueID;\nvar Account=\""$name"\";\nexports.Account=Account;"
 #If directory exists, remove it.
