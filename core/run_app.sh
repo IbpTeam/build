@@ -55,6 +55,11 @@ function run_app()
 
 function run_service()
 {
+    logpath=/home/$USER/.custard/servlog
+    if [[ ! -x $logpath ]]; then
+        echo "log path didn't exist , create one."
+        mkdir $logpath
+    fi
     lines=($(find $CROOT/service -maxdepth 2 -name package.json| sed -e 's/\/[^/]*$//' | sort | uniq ))
     if [[ ${#lines[@]} = 0 ]]; then
         echo "Not found"
