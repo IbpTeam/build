@@ -100,7 +100,7 @@ echo "Do you want to run app or service ?"
 echo "1. app"
 echo "2. service"
 echo
-echo -n "Select one: "
+echo -n "Select services: "
 choice=
 unset choice
 read choice
