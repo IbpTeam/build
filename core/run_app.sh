@@ -56,7 +56,7 @@ function run_app()
 function run_service()
 {
     logpath=/home/$USER/.custard/servlog
-    if [[ ! -x $logpath ]]; then
+    if [[ ! -d $logpath ]]; then
         echo "log path didn't exist , create one."
         mkdir $logpath
     fi
