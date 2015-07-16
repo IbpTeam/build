@@ -55,49 +55,57 @@ function run_app()
 
 function run_service()
 {
+    logpath=/home/$USER/.custard/servlog
+    if [[ ! -d $logpath ]]; then
+        echo "log path didn't exist , create one."
+        mkdir $logpath
+    fi
     lines=($(find $CROOT/service -maxdepth 2 -name package.json| sed -e 's/\/[^/]*$//' | sort | uniq ))
     if [[ ${#lines[@]} = 0 ]]; then
         echo "Not found"
         exit 1
     fi
-    pathname=
     choice=
     index=
-    if [[ ${#lines[@]} > 1 ]]; then
-        while [[ -z "$pathname" ]]; do
-            index=1
-            for line in ${lines[@]}; do
-                printf "%6s %s\n" "[$index]" $line
-                index=$(($index + 1))
-            done
-            echo
-            echo -n "Please choose a Service to run: "
-            unset choice
-            if [ $# -ge 1 ] ; then
-                choice=$1
-                shift
-            else
-                read choice
-            fi
-            if [[ $choice -gt ${#lines[@]} || $choice -lt 1 ]]; then
-                echo "Invalid choice, exit!"
-                exit 1
-            fi
-            pathname=${lines[$(($choice-1))]}
+    log=
+
+    index=1
+    for line in ${lines[@]}; do
+        printf "%6s %s\n" "[$index]" $line
+        index=$(($index + 1))
+    done
+     echo
+     echo -n "Please choose Services to run: "
+     unset choice
+     if [ $# -ge 1 ] ; then
+          choice=$1
+          shift
+     else
+          read -a choice
+     fi
+     for j in ${choice[@]}
+        do
+             if [[ $j -gt ${#lines[@]} || $j -lt 1 ]]; then
+                        echo "Invalid choice, exit!"
+                        exit 1
+             fi
         done
-    else
-        pathname=${lines[0]}
-    fi
-    
-    echo "Starting $pathname service"
-    node $pathname $*
+
+    echo "Starting ${#choice[@]} services"
+    for k in ${choice[@]}
+        do
+            echo ${lines[$k-1]}
+            unset log
+            log=${lines[$k-1]}
+            node ${lines[$k-1]} 2>&1>/home/$USER/.custard/servlog/${log##*/}.log &
+        done
 }
 
 echo "Do you want to run app or service ?"
 echo "1. app"
 echo "2. service"
 echo
-echo -n "Select one: "
+echo -n "Select services: "
 choice=
 unset choice
 read choice
