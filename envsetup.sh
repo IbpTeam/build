@@ -16,6 +16,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - genlog:    Echo your code's contribution about all repositries into ~/LOG by default.
 - svcInit:   Initialize a service package.
 - h:         Show more help.
+- stops:     Stop running services.
 
 Look at the source to view more functions. The complete list is:
 EOF
@@ -639,5 +640,38 @@ function svcInit() {
 
   npm init && mkdir implements interface "test"
   echo --------------------- Service Initialize Finished ---------------------
+}
+
+function stops(){
+  lines=($(ps aux|grep node|grep service|awk '{print $12}'))
+    if [[ ! -n $lines ]]; then
+      echo "There are no node service running."
+      return
+    fi
+  index=1
+  choice=
+  tmpserv=
+  echo "Running service as follows :"
+    for line in ${lines[@]}; do
+      printf "%6s %s\n" "[$index]" ${line##*/}
+      index=$(($index + 1))
+    done
+  echo "Input service numbers to stop :"
+  unset choice
+  read -a choice
+  for j in ${choice[@]}
+    do
+      if [[ $j -gt ${#lines[@]} || $j -lt 1 ]]; then
+        echo "Invalid choice, exit!"
+        return
+      fi
+    done
+  echo "Stopping ${#choice[@]} services"
+  for k in ${choice[@]}
+    do
+      unset tmpserv
+      tmpserv=($(ps aux|grep node|grep service|grep ${lines[$k-1]}|awk '{print $2}'))
+      kill $tmpserv && echo "stop ${lines[$k-1]} successful." 
+    done
 }
 
