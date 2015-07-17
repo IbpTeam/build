@@ -17,6 +17,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - svcInit:   Initialize a service package.
 - h:         Show more help.
 - stops:     Stop running services.
+- restarts:  Restart running services.
 
 Look at the source to view more functions. The complete list is:
 EOF
@@ -672,6 +673,43 @@ function stops(){
       unset tmpserv
       tmpserv=($(ps aux|grep node|grep service|grep ${lines[$k-1]}|awk '{print $2}'))
       kill $tmpserv && echo "stop ${lines[$k-1]} successful." 
+    done
+}
+
+function restarts(){
+  lines=($(ps aux|grep node|grep service|awk '{print $12}'))
+    if [[ ! -n $lines ]]; then
+      echo "There are no node service running."
+      return
+    fi
+  index=1
+  choice=
+  servnum=
+  log=
+  echo "Running service as follows :"
+    for line in ${lines[@]}; do
+      printf "%6s %s\n" "[$index]" ${line##*/}
+      index=$(($index + 1))
+    done
+  echo "Input service numbers to restart :"
+  unset choice
+  read -a choice
+  for j in ${choice[@]}
+    do
+      if [[ $j -gt ${#lines[@]} || $j -lt 1 ]]; then
+        echo "Invalid choice, exit!"
+        return
+      fi
+    done
+  echo "Restarting ${#choice[@]} services"
+  for k in ${choice[@]}
+    do
+      unset servnum
+      unset log
+      servnum=($(ps aux|grep node|grep service|grep ${lines[$k-1]}|awk '{print $2}'))
+      log=${lines[$k-1]}
+      kill $servnum  && echo "kill ${lines[$k-1]} successful, Restarting"
+      node ${lines[$k-1]} 2>&1>/home/$USER/.custard/servlog/${log##*/}.log &  
     done
 }
 
