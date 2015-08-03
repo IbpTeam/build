@@ -10,8 +10,14 @@ tmpPath=$basePath/tmp
 typeSourcePath=$CROOT/app/demo-rio/nodewebkit/backend/data
 typePath=$configPath/custard_type
 backupPath=~/.custardBac
+backupEditionPath=$backupPath/edition
+backupExtractPath=$backupPath/extract
 name=`whoami`
 userConifg="var uniqueID=\"rio"$RANDOM"rio\";\nexports.uniqueID=uniqueID;\nvar Account=\""$name"\";\nexports.Account=Account;"
+# if [ -e $backupExtractPath ]; then
+#   mkdir ~/.backup
+#   mv -R  backupExtractPath  ~/.backup
+# fi
 #If directory exists, remove it.
 if [ -e $basePath ]; then
   rm -rf $basePath
@@ -30,7 +36,8 @@ done
 if [ -e $backupPath ]; then
   rm -rf $backupPath
 fi
-mkdir -p $backupPath
+
+mkdir -p $backupPath && mkdir $backupExtractPath && mkdir $backupEditionPath
 #custard_type
 mkdir $typePath
 cp -r -f $typeSourcePath/typeDefine $typePath && echo Successful copy folder : $typeSourcePath/typeDefine To $typePath  
