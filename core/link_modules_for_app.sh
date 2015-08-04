@@ -205,7 +205,8 @@ function link_modules_for_all()
   link_node_modules_from_global $CROOT/service/hardresmgr || return 1
   link_node_modules_from_global $CROOT/service/datatransfer || return 1
   link_node_modules_from_global $CROOT/service/svcmgr || return 1
- 
+  link_node_modules_from_global $CROOT/service/cryptdaemon || return 1
+
   #Link moduels for app
   unlink_modules $CROOT/app/demo-rio/nodewebkit || return 1
   link_modules_from_global $CROOT/app/demo-rio/nodewebkit || return 1
