@@ -33,11 +33,16 @@ do
     mkdir $cateDir&& cd $cateDir&& mkdir data && cd ..
 done
 #backup
-if [ -e $backupPath ]; then
-  rm -rf $backupPath
+if [ ! -e $backupPath ]; then
+  mkdir -p $backupPath
+fi
+if [ ! -e $backupExtractPath ]; then
+  mkdir -p $backupExtractPath
+fi
+if [ ! -e $backupEditionPath ]; then
+  mkdir -p $backupEditionPath
 fi
 
-mkdir -p $backupPath && mkdir $backupExtractPath && mkdir $backupEditionPath
 #custard_type
 mkdir $typePath
 cp -r -f $typeSourcePath/typeDefine $typePath && echo Successful copy folder : $typeSourcePath/typeDefine To $typePath  
