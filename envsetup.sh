@@ -15,6 +15,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - bp         Build package.
 - genlog:    Echo your code's contribution about all repositries into ~/LOG by default.
 - svcInit:   Initialize a service package.
+- svcDebug:  List|stop|restart running services.
 - generator: Generate proxy, stub and index based on an interface file.
 - h:         Show more help.
 - stops:     Stop running services.
@@ -642,6 +643,10 @@ function svcInit() {
 
   npm init && mkdir implements interface "test"
   echo --------------------- Service Initialize Finished ---------------------
+}
+
+function svcDebug() {
+  $CROOT/service/svcmgr/tools/debug.js $*
 }
 
 function generator() {
