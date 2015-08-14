@@ -97,7 +97,7 @@ function run_service()
             echo ${lines[$k-1]}
             unset log
             log=${lines[$k-1]}
-            node ${lines[$k-1]} 2>&1>/home/$USER/.custard/servlog/${log##*/}.log &
+            node ${lines[$k-1]} > /home/$USER/.custard/servlog/${log##*/}.log 2>&1 &
         done
 }
 

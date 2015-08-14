@@ -15,6 +15,7 @@ Invoke ". set_env" from your shell to add the following functions to your enviro
 - bp         Build package.
 - genlog:    Echo your code's contribution about all repositries into ~/LOG by default.
 - svcInit:   Initialize a service package.
+- svcCtrl:   List|stop|restart running services.
 - generator: Generate proxy, stub and index based on an interface file.
 - h:         Show more help.
 - stops:     Stop running services.
@@ -644,6 +645,10 @@ function svcInit() {
   echo --------------------- Service Initialize Finished ---------------------
 }
 
+function svcCtrl() {
+  $CROOT/service/svcmgr/tools/debug.js $*
+}
+
 function generator() {
   echo --------------------- Service Interface Generate ---------------------
   $CROOT/framework/webde-rpc/tools/generator.js $*
@@ -716,7 +721,7 @@ function restarts(){
       servnum=($(ps aux|grep node|grep service|grep ${lines[$k-1]}|awk '{print $2}'))
       log=${lines[$k-1]}
       kill $servnum  && echo "kill ${lines[$k-1]} successful, Restarting"
-      node ${lines[$k-1]} 2>&1>/home/$USER/.custard/servlog/${log##*/}.log &  
+      node ${lines[$k-1]} > /home/$USER/.custard/servlog/${log##*/}.log 2>&1 &  
     done
 }
 
