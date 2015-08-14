@@ -721,7 +721,7 @@ function restarts(){
       servnum=($(ps aux|grep node|grep service|grep ${lines[$k-1]}|awk '{print $2}'))
       log=${lines[$k-1]}
       kill $servnum  && echo "kill ${lines[$k-1]} successful, Restarting"
-      node ${lines[$k-1]} 2>&1>/home/$USER/.custard/servlog/${log##*/}.log &  
+      node ${lines[$k-1]} > /home/$USER/.custard/servlog/${log##*/}.log 2>&1 &  
     done
 }
 
