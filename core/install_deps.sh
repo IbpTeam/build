@@ -53,16 +53,23 @@ function installDependenciesWithApt {
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
-      echo install ruby
-      sudo apt-get install ruby
+      echo install ruby2.0
+      sudo apt-get install ruby2.0
     fi
   set +e 
-    dpkg -L ruby1.9.1-dev > /dev/null
+    dpkg -L ruby2.0-dev > /dev/null
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
-      sudo apt-get install ruby1.9.1-dev
+      sudo apt-get install ruby2.0-dev
     fi
+    sudo ln -sf /usr/bin/ruby2.0 /usr/bin/ruby
+    sudo ln -sf /usr/bin/gem2.0 /usr/bin/gem
+    sudo ln -sf /usr/bin/erb2.0 /usr/bin/erb
+    sudo ln -sf /usr/bin/irb2.0 /usr/bin/irb
+    sudo ln -sf /usr/bin/rake2.0 /usr/bin/rake
+    sudo ln -sf /usr/bin/rdoc2.0 /usr/bin/rdoc
+    sudo ln -sf /usr/bin/testrb2.0 /usr/bin/testrb
   set +e 
     echo install jekyll
     gem list jekyll | grep 'jekyll ' > /dev/null
