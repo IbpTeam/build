@@ -76,6 +76,8 @@ function installDependenciesWithApt {
     res_no=$?
   set -e
     if [ $res_no -ne 0 ] ; then
+      sudo gem sources -r https://rubygems.org
+      sudo gem sources -a http://rubygems.org  
       sudo gem install jekyll
     fi
     # fix the lack of libudev.so.0.
